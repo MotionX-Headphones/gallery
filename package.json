@@ -1,9 +1,9 @@
 {
-  "name": "reactjs-template",
+  "name": "gallery",
   "private": true,
   "version": "0.0.1",
   "type": "module",
-  "homepage": "https://MotionX-Headphones.github.io/MotionX-Gallery",
+  "homepage": "https://motionx-headphones.github.io/gallery",
   "scripts": {
     "deploy": "gh-pages -d dist",
     "dev": "vite",
