@@ -79,7 +79,7 @@ export const GalleryPage = () => {
                     variant='rectangular'
                     width={250}
                     height={250}
-                    sx={{ borderRadius: 3, flex: 1 }}
+                    sx={{ borderRadius: 0, flex: 1 }}
                     style={{ maxWidth: 250, margin: '0 2px' }}
                   />
                 ))}
