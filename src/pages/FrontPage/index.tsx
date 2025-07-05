@@ -5,48 +5,62 @@ import { BottomNavigation, BottomNavigationAction } from '@mui/material';
 import RestoreIcon from '@mui/icons-material/Restore';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-
-
+import ExploreOutlinedIcon from '@mui/icons-material/ExploreOutlined';
 export const FrontPage = () => {
-    const [value, setValue] = useState('gallery');
+  const [value, setValue] = useState('gallery');
 
-    const handleChange = (_event: React.SyntheticEvent, newValue: string) => {
-        setValue(newValue);
-    };
-    return (
-        <>
-            <div id="scrollableDiv" style={{ height: `calc(100vh - 56px)`, overflow: 'scroll' }}>
-                {value === 'home' && <IndexPage />}
-                {value === 'gallery' && <GalleryPage />}
-            </div>
-
-            {/* <Tabbar>
-                {tabs.map(({
-                    id,
-                    text,
-                    Icon
-                }) => <Tabbar.Item key={id} text={text} selected={id === currentTab} onClick={() => setCurrentTab(id)}>
-                        <Icon />
-                    </Tabbar.Item>)}
-            </Tabbar> */}
-            <BottomNavigation sx={{ width: '100%', position: 'fixed', bottom: 0 }} value={value} onChange={handleChange}>
-            <BottomNavigationAction
-                    label="Gallery"
-                    value="gallery"
-                    icon={<LocationOnIcon />}
-                />
-                <BottomNavigationAction
-                    label="Home"
-                    value="home"
-                    icon={<RestoreIcon />}
-                />
-                <BottomNavigationAction
-                    label="Settings"
-                    value="settings"
-                    icon={<FavoriteIcon />}
-                />
-
-            </BottomNavigation>
-        </>
-    )
-}
+  const handleChange = (_event: React.SyntheticEvent, newValue: string) => {
+    setValue(newValue);
+  };
+  return (
+    <>
+      <div
+        id='scrollableDiv'
+        style={{ height: `calc(100vh - 56px)`, overflow: 'scroll' }}
+      >
+        {value === 'home' && <IndexPage />}
+        {value === 'gallery' && <GalleryPage />}
+      </div>
+      <BottomNavigation
+        sx={{
+          width: '100%',
+          position: 'fixed',
+          bottom: 0,
+          background: 'var(--tg-theme-bottom-bar-bg-color)',
+          color: 'var(--tg-theme-text-color)',
+          '& .MuiBottomNavigationAction-root': {
+            color: 'var(--tg-theme-text-color)',
+          },
+          '& .Mui-selected, & .Mui-selected svg': {
+            color: 'var(--tg-theme-accent-color)',
+          },
+        }}
+        value={value}
+        onChange={handleChange}
+      >
+        <BottomNavigationAction
+          label='Gallery'
+          value='gallery'
+          icon={<ExploreOutlinedIcon />}
+          sx={{ color: 'var(--tg-theme-text-color)' }}
+        />
+        {false && (
+          <BottomNavigationAction
+            label='Home'
+            value='home'
+            icon={<RestoreIcon />}
+            sx={{ color: 'var(--tg-theme-text-color)' }}
+          />
+        )}
+        {false && (
+          <BottomNavigationAction
+            label='Settings'
+            value='settings'
+            icon={<FavoriteIcon />}
+            sx={{ color: 'var(--tg-theme-text-color)' }}
+          />
+        )}
+      </BottomNavigation>
+    </>
+  );
+};
