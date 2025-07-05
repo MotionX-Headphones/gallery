@@ -8,7 +8,7 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 
 
 export const FrontPage = () => {
-    const [value, setValue] = useState('home');
+    const [value, setValue] = useState('gallery');
 
     const handleChange = (_event: React.SyntheticEvent, newValue: string) => {
         setValue(newValue);
@@ -30,6 +30,11 @@ export const FrontPage = () => {
                     </Tabbar.Item>)}
             </Tabbar> */}
             <BottomNavigation sx={{ width: '100%', position: 'fixed', bottom: 0 }} value={value} onChange={handleChange}>
+            <BottomNavigationAction
+                    label="Gallery"
+                    value="gallery"
+                    icon={<LocationOnIcon />}
+                />
                 <BottomNavigationAction
                     label="Home"
                     value="home"
@@ -40,11 +45,7 @@ export const FrontPage = () => {
                     value="settings"
                     icon={<FavoriteIcon />}
                 />
-                <BottomNavigationAction
-                    label="Gallery"
-                    value="gallery"
-                    icon={<LocationOnIcon />}
-                />
+
             </BottomNavigation>
         </>
     )
