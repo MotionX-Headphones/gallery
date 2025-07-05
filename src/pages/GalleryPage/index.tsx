@@ -2,10 +2,12 @@ import { useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import ArtworkCard from '../../components/ArtworkCard';
 import Skeleton from '@mui/material/Skeleton';
+import CircularProgress from '@mui/material/CircularProgress';
 
 export const GalleryPage = () => {
   const [items, setItems] = useState<any[]>([]);
   const [hasMore, setHasMore] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
 
   const fetchData = () => {
     if (items.length >= 500) {
@@ -24,6 +26,27 @@ export const GalleryPage = () => {
       });
       setItems(items.concat(newItems));
     }, 1000);
+  };
+
+  // Add refresh function for pull down to refresh
+  const refresh = () => {
+    setRefreshing(true);
+    return new Promise<void>((resolve) => {
+      setTimeout(() => {
+        const newItems = Array.from({ length: 10 }).map((_, i) => {
+          return {
+            artId: `art-${i}`,
+            imageUrl: `https://picsum.photos/seed/${i}/200/200`,
+            title: `Artwork ${i}`,
+            author: `Author ${i % 10}`,
+          };
+        });
+        setItems(newItems);
+        setHasMore(true);
+        setRefreshing(false);
+        resolve();
+      }, 1000);
+    });
   };
 
   useEffect(() => {
@@ -71,7 +94,24 @@ export const GalleryPage = () => {
             <b>Yay! You have seen it all</b>
           </p>
         }
+        // Add pull down to refresh props
+        pullDownToRefresh
+        refreshFunction={refresh}
+        pullDownToRefreshThreshold={100}
       >
+        {/* Loader at the top when refreshing */}
+        {refreshing && (
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              margin: '16px 0',
+            }}
+          >
+            <CircularProgress size={32} thickness={4} />
+          </div>
+        )}
         {Array.from({ length: Math.ceil(items.length / 2) }).map(
           (_, rowIndex) => (
             <div

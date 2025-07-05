@@ -4,7 +4,6 @@ import { GalleryPage } from '@/pages/GalleryPage/index';
 import { BottomNavigation, BottomNavigationAction } from '@mui/material';
 import RestoreIcon from '@mui/icons-material/Restore';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
 import ExploreOutlinedIcon from '@mui/icons-material/ExploreOutlined';
 export const FrontPage = () => {
   const [value, setValue] = useState('gallery');

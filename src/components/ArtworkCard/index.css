@@ -1,6 +1,6 @@
 .artwork-card-half-width {
   width: 50vw;
-  border: 2px solid red;
+  border: 1px solid var(--tg-theme-hint-color);
   height: auto;
   box-sizing: border-box;
 }
