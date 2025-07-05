@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
+import ArtworkCard from '../../components/ArtworkCard';
 
 export const GalleryPage = () => {
     const [items, setItems] = useState<any[]>([]);
@@ -11,7 +12,16 @@ export const GalleryPage = () => {
             return;
         }
         setTimeout(() => {
-            setItems(items.concat(Array.from({ length: 10 })));
+            const newItems = Array.from({ length: 10 }).map((_, i) => {
+                const index = items.length + i;
+                return {
+                    artId: `art-${index}`,
+                    imageUrl: `https://picsum.photos/seed/${index}/200/200`,
+                    title: `Artwork ${index}`,
+                    author: `Author ${index % 10}`
+                };
+            });
+            setItems(items.concat(newItems));
         }, 1000);
     }
 
@@ -33,10 +43,17 @@ export const GalleryPage = () => {
                 </p>
             }
         >
-            <p>hasMore: {hasMore.toString()}</p>
-            {items.map((_, index) => (
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100px' }} key={index}>
-                    div - #{index}
+            {Array.from({ length: Math.ceil(items.length / 2) }).map((_, rowIndex) => (
+                <div
+                    key={rowIndex}
+                    style={{ display: 'flex', justifyContent: 'center', gap: '5px', marginBottom: '16px', padding: '0 5px' }}
+                >
+                    {items[rowIndex * 2] && (
+                        <ArtworkCard {...items[rowIndex * 2]} />
+                    )}
+                    {items[rowIndex * 2 + 1] && (
+                        <ArtworkCard {...items[rowIndex * 2 + 1]} />
+                    )}
                 </div>
             ))}
         </InfiniteScroll>
