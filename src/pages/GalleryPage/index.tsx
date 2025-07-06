@@ -3,50 +3,31 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import ArtworkCard from '../../components/ArtworkCard';
 import Skeleton from '@mui/material/Skeleton';
 import CircularProgress from '@mui/material/CircularProgress';
+import { getArtWorks } from '@/utils/request/gallery';
+import { Typography } from '@mui/material';
 
 export const GalleryPage = () => {
   const [items, setItems] = useState<any[]>([]);
   const [hasMore, setHasMore] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
 
-  const fetchData = () => {
-    if (items.length >= 500) {
+  const fetchData = async () => {
+    if (items.length >= 13) {
       setHasMore(false);
       return;
     }
     setTimeout(() => {
-      const newItems = Array.from({ length: 10 }).map((_, i) => {
-        const index = items.length + i;
-        return {
-          artId: `art-${index}`,
-          imageUrl: `https://picsum.photos/seed/${index}/200/200`,
-          title: `Artwork ${index}`,
-          author: `Author ${index % 10}`,
-        };
+      getArtWorks().then((res) => {
+        setItems(items.concat(res));
       });
-      setItems(items.concat(newItems));
     }, 1000);
   };
 
   // Add refresh function for pull down to refresh
-  const refresh = () => {
+  const refresh = async () => {
     setRefreshing(true);
-    return new Promise<void>((resolve) => {
-      setTimeout(() => {
-        const newItems = Array.from({ length: 10 }).map((_, i) => {
-          return {
-            artId: `art-${i}`,
-            imageUrl: `https://picsum.photos/seed/${i}/200/200`,
-            title: `Artwork ${i}`,
-            author: `Author ${i % 10}`,
-          };
-        });
-        setItems(newItems);
-        setHasMore(true);
-        setRefreshing(false);
-        resolve();
-      }, 1000);
-    });
+    await fetchData();
+    setRefreshing(false);
   };
 
   useEffect(() => {
@@ -90,9 +71,11 @@ export const GalleryPage = () => {
         scrollThreshold={'800px'}
         scrollableTarget='scrollableDiv'
         endMessage={
-          <p style={{ textAlign: 'center' }}>
-            <b>Yay! You have seen it all</b>
-          </p>
+          <Typography
+            sx={{ textAlign: 'center', color: 'var(--tg-theme-text-color)' }}
+          >
+            Yay! You have seen it all
+          </Typography>
         }
         // Add pull down to refresh props
         pullDownToRefresh
@@ -113,23 +96,43 @@ export const GalleryPage = () => {
           </div>
         )}
         {Array.from({ length: Math.ceil(items.length / 2) }).map(
-          (_, rowIndex) => (
-            <div
-              key={rowIndex}
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                gap: '4px',
-                marginBottom: '8px',
-                padding: '0 4px',
-              }}
-            >
-              {items[rowIndex * 2] && <ArtworkCard {...items[rowIndex * 2]} />}
-              {items[rowIndex * 2 + 1] && (
-                <ArtworkCard {...items[rowIndex * 2 + 1]} />
-              )}
-            </div>
-          )
+          (_, rowIndex) => {
+            const isLastRow = rowIndex === Math.ceil(items.length / 2) - 1;
+            const isOdd = items.length % 2 !== 0;
+            const firstItem = items[rowIndex * 2];
+            const secondItem = items[rowIndex * 2 + 1];
+            return (
+              <div
+                key={rowIndex}
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  gap: '4px',
+                  marginBottom: '8px',
+                  padding: '0 4px',
+                }}
+              >
+                {firstItem && <ArtworkCard {...firstItem} />}
+                {secondItem ? (
+                  <ArtworkCard {...secondItem} />
+                ) : (
+                  isLastRow &&
+                  isOdd && (
+                    <div
+                      style={{
+                        width: '100%',
+                        height: 250,
+                        maxWidth: '100%',
+                        margin: '0 2px',
+                        visibility: 'hidden',
+                        flex: '1 1 100%',
+                      }}
+                    />
+                  )
+                )}
+              </div>
+            );
+          }
         )}
       </InfiniteScroll>
     </>

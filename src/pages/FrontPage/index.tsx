@@ -11,6 +11,15 @@ export const FrontPage = () => {
   const handleChange = (_event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
+
+  // Function to scroll to top of #scrollableDiv
+  const scrollToTop = () => {
+    const div = document.getElementById('scrollableDiv');
+    if (div) {
+      div.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
   return (
     <>
       <div
@@ -42,6 +51,11 @@ export const FrontPage = () => {
           value='gallery'
           icon={<ExploreOutlinedIcon />}
           sx={{ color: 'var(--tg-theme-text-color)' }}
+          onClick={() => {
+            if (value === 'gallery') {
+              scrollToTop();
+            }
+          }}
         />
         {false && (
           <BottomNavigationAction
