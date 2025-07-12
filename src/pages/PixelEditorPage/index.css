@@ -1,0 +1,22 @@
+.pixelEditorPage {
+  height: calc(100vh - 56px);
+  width: 100%;
+  background-color: var(--tg-theme-secondary-bg-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.canvasContainer {
+  display: grid;
+  grid-template-columns: repeat(16, 1em);
+  grid-template-rows: repeat(18, 1em);
+  gap: 0;
+  height: 18em;
+  width: 16em;
+  border: 1px solid #007bff;
+  background: #222;
+  border-radius: 4px;
+}
+

@@ -5,6 +5,9 @@ import { BottomNavigation, BottomNavigationAction } from '@mui/material';
 import RestoreIcon from '@mui/icons-material/Restore';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ExploreOutlinedIcon from '@mui/icons-material/ExploreOutlined';
+import { PixelEditorPage } from '@/pages/PixelEditorPage/index';
+import BrushIcon from '@mui/icons-material/Brush';
+import './index.css';
 export const FrontPage = () => {
   const [value, setValue] = useState('gallery');
 
@@ -22,20 +25,10 @@ export const FrontPage = () => {
 
   return (
     <>
-      <div
-        id='scrollableDiv'
-        style={{
-          height: `calc(100vh - 56px)`,
-          overflow: 'scroll',
-          scrollbarWidth: 'none', // Firefox
-          msOverflowStyle: 'none', // Internet Explorer 10+
-          '&::-webkit-scrollbar': {
-            display: 'none', // WebKit
-          },
-        }}
-      >
+      <div id='scrollableDiv' className='scrollableDiv'>
         {value === 'home' && <IndexPage />}
         {value === 'gallery' && <GalleryPage />}
+        {value === 'pixelEditor' && <PixelEditorPage />}
       </div>
       <BottomNavigation
         sx={{
@@ -64,6 +57,12 @@ export const FrontPage = () => {
               scrollToTop();
             }
           }}
+        />
+        <BottomNavigationAction
+          label='Pixel Editor'
+          value='pixelEditor'
+          icon={<BrushIcon />}
+          sx={{ color: 'var(--tg-theme-text-color)' }}
         />
         {false && (
           <BottomNavigationAction
