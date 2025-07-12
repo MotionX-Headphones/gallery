@@ -1,11 +1,5 @@
 import './index.css';
-import React, {
-  useState,
-  useRef,
-  useCallback,
-  createContext,
-  useContext,
-} from 'react';
+import React, { useState, createContext, useContext } from 'react';
 import Pixel from './Pixel';
 import Button from '@mui/material/Button';
 const ROWS = 18;
@@ -15,8 +9,8 @@ const COLS = 16;
 const DrawingContext = createContext({
   drawing: false,
   mode: 'draw',
-  setDrawing: (d: boolean) => {},
-  setMode: (m: 'draw' | 'erase') => {},
+  setDrawing: (_d: boolean) => {},
+  setMode: (_m: 'draw' | 'erase') => {},
 });
 
 export const PixelEditorPage = () => {
