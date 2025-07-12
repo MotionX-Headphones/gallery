@@ -24,6 +24,27 @@ export default function ArtworkCard({
   const handleLike = () => {
     setLiked(!liked);
   };
+  const isEmpty = !imageUrl || !title || !author;
+  if (isEmpty) {
+    return (
+      <Card
+        sx={{
+          maxWidth: 250,
+          width: '100%',
+          borderRadius: 0,
+          boxShadow: 0,
+          position: 'relative',
+          background: 'var(--tg-theme-secondary-bg-color)',
+          color: 'var(--tg-theme-text-color, #222)',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          minHeight: 220,
+        }}
+      ></Card>
+    );
+  }
   return (
     <Card
       sx={{

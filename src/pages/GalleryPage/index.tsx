@@ -118,15 +118,11 @@ export const GalleryPage = () => {
                 ) : (
                   isLastRow &&
                   isOdd && (
-                    <div
-                      style={{
-                        width: '100%',
-                        height: 250,
-                        maxWidth: '100%',
-                        margin: '0 2px',
-                        visibility: 'hidden',
-                        flex: '1 1 100%',
-                      }}
+                    <ArtworkCard
+                      imageUrl={''}
+                      title={''}
+                      author={''}
+                      isLiked={false}
                     />
                   )
                 )}

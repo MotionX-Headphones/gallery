@@ -24,7 +24,15 @@ export const FrontPage = () => {
     <>
       <div
         id='scrollableDiv'
-        style={{ height: `calc(100vh - 56px)`, overflow: 'scroll' }}
+        style={{
+          height: `calc(100vh - 56px)`,
+          overflow: 'scroll',
+          scrollbarWidth: 'none', // Firefox
+          msOverflowStyle: 'none', // Internet Explorer 10+
+          '&::-webkit-scrollbar': {
+            display: 'none', // WebKit
+          },
+        }}
       >
         {value === 'home' && <IndexPage />}
         {value === 'gallery' && <GalleryPage />}
