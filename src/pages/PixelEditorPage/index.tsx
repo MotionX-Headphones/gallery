@@ -1,5 +1,7 @@
 import './index.css';
 import React, { useState, createContext, useContext } from 'react';
+import domtoimage from 'dom-to-image';
+
 import Pixel from './Pixel';
 import Button from '@mui/material/Button';
 import BrushIcon from '@mui/icons-material/Brush';
@@ -31,7 +33,25 @@ export const PixelEditorPage = () => {
     };
   }, []);
 
-  const downloadPixelArt = () => {};
+  const downloadPixelArt = () => {
+    const element = document.getElementById('pixel-art-node');
+    if (!element) {
+      console.error('Pixel art element not found');
+      return;
+    }
+
+    domtoimage
+      .toPng(element)
+      .then(function (dataUrl) {
+        const link = document.createElement('a');
+        link.download = `pixel-art-${Date.now()}.png`;
+        link.href = dataUrl;
+        link.click();
+      })
+      .catch((error) => {
+        console.error('Error downloading pixel art:', error);
+      });
+  };
 
   return (
     <DrawingContext.Provider value={{ drawing, mode, setDrawing, setMode }}>
@@ -56,17 +76,19 @@ export const PixelEditorPage = () => {
             <AutoFixOffIcon fontSize='small' />
           </Button>
         </div>
-        <div className='canvasContainer'>
+        <div id='pixel-art-node' className='canvasContainer'>
           {Array.from({ length: ROWS * COLS }).map((_, idx) => (
             <Pixel key={idx} />
           ))}
         </div>
         <Button
           onClick={downloadPixelArt}
-          variant='contained'
-          color='primary'
           startIcon={<DownloadIcon />}
-          style={{ marginTop: 20 }}
+          style={{
+            marginTop: 20,
+            color: 'var(--tg-theme-text-color)',
+            borderColor: 'var(--tg-theme-text-color)',
+          }}
         >
           Download Pixel Art
         </Button>
