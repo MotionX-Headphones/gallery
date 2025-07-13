@@ -2,8 +2,11 @@ import './index.css';
 import React, { useState, createContext, useContext } from 'react';
 import Pixel from './Pixel';
 import Button from '@mui/material/Button';
-const ROWS = 18;
-const COLS = 16;
+import BrushIcon from '@mui/icons-material/Brush';
+import AutoFixOffIcon from '@mui/icons-material/AutoFixOff';
+import DownloadIcon from '@mui/icons-material/Download';
+const ROWS = 12;
+const COLS = 15;
 
 // Context to share drawing state and mode
 const DrawingContext = createContext({
@@ -28,33 +31,29 @@ export const PixelEditorPage = () => {
     };
   }, []);
 
+  const downloadPixelArt = () => {};
+
   return (
     <DrawingContext.Provider value={{ drawing, mode, setDrawing, setMode }}>
       <div className='pixelEditorPage'>
         <div style={{ marginBottom: 12, display: 'flex', gap: 8 }}>
           <Button
             onClick={() => setMode('draw')}
-            style={{
-              background: mode === 'draw' ? '#007bff' : '#eee',
-              color: mode === 'draw' ? '#fff' : '#222',
-              border: '1px solid #007bff',
-            }}
+            className={`pixelEditor-btn pixelEditor-btn--draw${
+              mode === 'draw' ? ' active' : ''
+            }`}
+            aria-label='Draw'
           >
-            Draw
+            <BrushIcon fontSize='small' />
           </Button>
           <Button
             onClick={() => setMode('erase')}
-            style={{
-              background: mode === 'erase' ? '#007bff' : '#eee',
-              color: mode === 'erase' ? '#fff' : '#222',
-              border: '1px solid #007bff',
-              padding: '6px 16px',
-              borderRadius: 4,
-              cursor: 'pointer',
-              fontWeight: mode === 'erase' ? 'bold' : 'normal',
-            }}
+            className={`pixelEditor-btn pixelEditor-btn--erase${
+              mode === 'erase' ? ' active' : ''
+            }`}
+            aria-label='Erase'
           >
-            Erase
+            <AutoFixOffIcon fontSize='small' />
           </Button>
         </div>
         <div className='canvasContainer'>
@@ -62,6 +61,15 @@ export const PixelEditorPage = () => {
             <Pixel key={idx} />
           ))}
         </div>
+        <Button
+          onClick={downloadPixelArt}
+          variant='contained'
+          color='primary'
+          startIcon={<DownloadIcon />}
+          style={{ marginTop: 20 }}
+        >
+          Download Pixel Art
+        </Button>
       </div>
     </DrawingContext.Provider>
   );
