@@ -10,10 +10,9 @@
 
 .canvasContainer {
   display: grid;
-  grid-template-columns: repeat(16, 1em);
-  grid-template-rows: repeat(18, 1em);
-  gap: 0;
-  row-gap: 5px;
+  grid-template-columns: repeat(16, 30px);
+  grid-template-rows: repeat(18, 30px);
+  gap: 15px 0; /* 15px between rows, 0 between columns */
   height: fit-content;
   width: fit-content;
   background: #2c2c2c;
