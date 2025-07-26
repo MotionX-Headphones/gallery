@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function ArtworkCard({
   imageUrl,
@@ -18,6 +19,13 @@ export default function ArtworkCard({
   isLiked?: boolean;
 }) {
   const [liked, setLiked] = useState(isLiked || false);
+  const navigate = useNavigate();
+  function handleClick() {
+    const encodedImageUrl = encodeURIComponent(imageUrl);
+    navigate(
+      `/artwork-detail?imageUrl=${encodedImageUrl}&title=${title}&author=${author}`
+    );
+  }
   useEffect(() => {
     setLiked(isLiked || false);
   }, []);
@@ -47,6 +55,7 @@ export default function ArtworkCard({
   }
   return (
     <Card
+      onClick={handleClick}
       sx={{
         maxWidth: 250,
         width: '100%',
@@ -59,9 +68,11 @@ export default function ArtworkCard({
     >
       <CardMedia
         component='img'
-        height='180'
+        height='250'
+        width='250'
         image={imageUrl || 'https://via.placeholder.com/250x180'}
         alt={title}
+        sx={{ objectFit: 'fill' }}
       />
       <CardContent
         sx={{
