@@ -1,6 +1,7 @@
 {
   "hosting": {
     "public": "dist",
+    "site": "motionx-gallery",
     "ignore": [
       "firebase.json",
       "**/.*",

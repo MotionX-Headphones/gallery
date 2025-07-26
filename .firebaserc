@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "motionx-project"
+    "default": "motionx-gallery"
+    "public": "dist"
   }
 }
