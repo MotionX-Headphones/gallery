@@ -6,6 +6,7 @@ import IconButton from '@mui/material/IconButton';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { popup } from '@telegram-apps/sdk-react';
 
 export default function ArtworkCard({
   imageUrl,
@@ -20,11 +21,50 @@ export default function ArtworkCard({
 }) {
   const [liked, setLiked] = useState(isLiked || false);
   const navigate = useNavigate();
+
+  /**
+   * Handles card click to show artwork details in a popup overlay
+   */
   function handleClick() {
-    const encodedImageUrl = encodeURIComponent(imageUrl);
-    navigate(
-      `/artwork-detail?imageUrl=${encodedImageUrl}&title=${title}&author=${author}`
-    );
+    // Check if popup is available and supported
+    if (popup.isSupported()) {
+      console.log('popup is supported');
+      // Show artwork details in a popup overlay
+      popup
+        .show({
+          title: title,
+          message: `Artist: ${author}\n\nClick "View Details" to see the full artwork.`,
+          buttons: [
+            {
+              id: 'view-details',
+              type: 'default',
+              text: 'View Details',
+            },
+            {
+              id: 'close',
+              type: 'close',
+            },
+          ],
+        })
+        .then((buttonId) => {
+          // Handle button clicks
+          console.log('buttonId', buttonId);
+          if (buttonId === 'view-details') {
+            // Navigate to detail page when user wants to see full details
+            const encodedImageUrl = encodeURIComponent(imageUrl);
+            navigate(
+              `/artwork-detail?imageUrl=${encodedImageUrl}&title=${title}&author=${author}`
+            );
+          }
+        });
+    } else {
+      // Fallback to direct navigation if popup is not supported
+      console.log('popup is not supported');
+      const encodedImageUrl = encodeURIComponent(imageUrl);
+      navigate(
+        `/artwork-detail?imageUrl=${encodedImageUrl}&title=${title}&author=${author}`
+      );
+    }
   }
   useEffect(() => {
     setLiked(isLiked || false);
@@ -37,7 +77,6 @@ export default function ArtworkCard({
     return (
       <Card
         sx={{
-          maxWidth: 250,
           width: '100%',
           borderRadius: 0,
           boxShadow: 0,
@@ -57,7 +96,7 @@ export default function ArtworkCard({
     <Card
       onClick={handleClick}
       sx={{
-        maxWidth: 250,
+        maxWidth: 180,
         width: '100%',
         borderRadius: 0,
         boxShadow: 0,
@@ -68,8 +107,7 @@ export default function ArtworkCard({
     >
       <CardMedia
         component='img'
-        height='250'
-        width='250'
+        height='180'
         image={imageUrl || 'https://via.placeholder.com/250x180'}
         alt={title}
         sx={{ objectFit: 'fill' }}
