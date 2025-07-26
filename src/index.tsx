@@ -41,9 +41,9 @@ try {
     });
   }
   // This will ensure user never overscroll the page
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 0) window.scrollTo(0, 0);
-  });
+  // window.addEventListener('scroll', () => {
+  //   if (window.scrollY > 0) window.scrollTo(0, 0);
+  // });
 } catch (e) {
   root.render(<EnvUnsupported />);
 }

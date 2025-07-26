@@ -88,6 +88,7 @@ export default function ArtworkCard({
           alignItems: 'center',
           justifyContent: 'center',
           minHeight: 220,
+          maxWidth: 180,
         }}
       ></Card>
     );

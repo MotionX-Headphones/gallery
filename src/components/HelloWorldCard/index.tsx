@@ -1,85 +1,106 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
+import { Stage, Layer, Image, Group } from 'react-konva';
 
 const CANVAS_WIDTH = 3376;
 const CANVAS_HEIGHT = 3376;
 const IMAGE_URL =
-  'https://firebasestorage.googleapis.com/v0/b/motionx-project.appspot.com/o/app-resources%2Fheadphones-squre.png?alt=media&token=22fa447b-4e6f-4a27-9741-c8361298c8fe'; // Replace with your image link
+  'https://firebasestorage.googleapis.com/v0/b/motionx-project.appspot.com/o/app-resources%2Fheadphones-squre.png?alt=media&token=22fa447b-4e6f-4a27-9741-c8361298c8fe';
 
-export const HelloWorldCard: React.FC = (props: {
+export const HelloWorldCard: React.FC<{
   overlayImageUrl?: string;
-}) => {
-  const { overlayImageUrl } = props;
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+}> = ({ overlayImageUrl }) => {
+  const [backgroundImage, setBackgroundImage] =
+    useState<HTMLImageElement | null>(null);
+  const [overlayImage, setOverlayImage] = useState<HTMLImageElement | null>(
+    null
+  );
+  const [stageSize, setStageSize] = useState({ width: 0, height: 0 });
+  const containerRef = useRef<HTMLDivElement>(null);
 
+  // Load background image
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const dpr = window.devicePixelRatio || 1;
-    canvas.width = CANVAS_WIDTH * dpr;
-    canvas.height = CANVAS_HEIGHT * dpr;
-    canvas.style.width = '100%';
-    canvas.style.height = 'auto';
-    const ctx = canvas.getContext('2d');
-    if (ctx) ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
     const img = new window.Image();
-    img.onload = () => {
-      ctx?.drawImage(img, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-      if (overlayImageUrl) {
-        const overlayImg = new window.Image();
-        overlayImg.onload = () => {
-          // Draw overlay image as a quadrilateral using the 4 corner points
-          // Source corners: (1225,2400), (2140,2400), (1240,3115), (2120,3115)
-
-          // Save current context state
-          ctx?.save();
-
-          // Create a path for the quadrilateral
-          ctx?.beginPath();
-          ctx?.moveTo(1225, 2400); // Top-left
-          ctx?.lineTo(2140, 2400); // Top-right
-          ctx?.lineTo(2120, 3115); // Bottom-right
-          ctx?.lineTo(1240, 3115); // Bottom-left
-          ctx?.closePath();
-
-          // Set clipping path to the quadrilateral
-          ctx?.clip();
-
-          // Calculate bounding box for the image
-          const minX = Math.min(1225, 2140, 1240, 2120);
-          const maxX = Math.max(1225, 2140, 1240, 2120);
-          const minY = Math.min(2400, 2400, 3115, 3115);
-          const maxY = Math.max(2400, 2400, 3115, 3115);
-
-          // Draw the image to fill the bounding box
-          ctx?.drawImage(overlayImg, minX, minY, maxX - minX, maxY - minY);
-
-          // Restore context state
-          ctx?.restore();
-        };
-        overlayImg.src = overlayImageUrl;
-      }
-    };
+    img.onload = () => setBackgroundImage(img);
     img.src = IMAGE_URL;
   }, []);
 
+  // Load overlay image
+  useEffect(() => {
+    if (!overlayImageUrl) return;
+
+    const img = new window.Image();
+    img.onload = () => setOverlayImage(img);
+    img.src = overlayImageUrl;
+  }, [overlayImageUrl]);
+
+  // Calculate stage size based on container
+  useEffect(() => {
+    const updateStageSize = () => {
+      if (containerRef.current) {
+        const container = containerRef.current;
+        const containerWidth = container.offsetWidth;
+        const scale = containerWidth / CANVAS_WIDTH;
+        setStageSize({
+          width: containerWidth,
+          height: CANVAS_HEIGHT * scale,
+        });
+      }
+    };
+
+    updateStageSize();
+    window.addEventListener('resize', updateStageSize);
+    return () => window.removeEventListener('resize', updateStageSize);
+  }, []);
+
+  // Calculate scale factor for the stage
+  const scale = stageSize.width / CANVAS_WIDTH;
+
   return (
     <div
+      ref={containerRef}
       style={{
         width: '100%',
         maxWidth: '100vw',
         aspectRatio: `${CANVAS_WIDTH} / ${CANVAS_HEIGHT}`,
       }}
     >
-      <canvas
-        ref={canvasRef}
-        style={{
-          width: '100%',
-          height: 'auto',
-          display: 'block',
-          background: 'white',
-        }}
-      />
+      <Stage width={stageSize.width} height={stageSize.height}>
+        <Layer>
+          {/* Background image */}
+          {backgroundImage && (
+            <Image
+              image={backgroundImage}
+              width={CANVAS_WIDTH}
+              height={CANVAS_HEIGHT}
+              scaleX={scale}
+              scaleY={scale}
+            />
+          )}
+
+          {/* Overlay image with quadrilateral clipping */}
+          {overlayImage && (
+            <Group
+              clipFunc={(ctx: CanvasRenderingContext2D) => {
+                // Define the quadrilateral clipping path
+                ctx.beginPath();
+                ctx.moveTo(1225 * scale, 2400 * scale); // Top-left
+                ctx.lineTo(2140 * scale, 2400 * scale); // Top-right
+                ctx.lineTo(2120 * scale, 3115 * scale); // Bottom-right
+                ctx.lineTo(1240 * scale, 3115 * scale); // Bottom-left
+                ctx.closePath();
+              }}
+            >
+              <Image
+                image={overlayImage}
+                x={1225 * scale}
+                y={2400 * scale}
+                width={(2140 - 1225) * scale}
+                height={(3115 - 2400) * scale}
+              />
+            </Group>
+          )}
+        </Layer>
+      </Stage>
     </div>
   );
 };
