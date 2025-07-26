@@ -76,7 +76,7 @@ export const ArtworkDetailPage: FC = () => {
         </TabPanel>
 
         <TabPanel value={tabValue} index={1}>
-          <HelloWorldCard />
+          <HelloWorldCard overlayImageUrl={`${imageUrl}&token=${token}`} />
         </TabPanel>
 
         <AboutArtwork

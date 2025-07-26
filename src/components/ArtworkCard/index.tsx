@@ -27,7 +27,7 @@ export default function ArtworkCard({
    */
   function handleClick() {
     // Check if popup is available and supported
-    if (popup.isSupported()) {
+    if (popup.isSupported() && false) {
       console.log('popup is supported');
       // Show artwork details in a popup overlay
       popup
