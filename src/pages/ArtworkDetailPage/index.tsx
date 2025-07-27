@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 import { useState } from 'react';
 import { Tabs, Tab, Box } from '@mui/material';
+import { useSwipeable } from 'react-swipeable';
 
 import { Page } from '@/components/Page.tsx';
 import { bem } from '@/css/bem.ts';
@@ -50,9 +51,35 @@ export const ArtworkDetailPage: FC = () => {
     setTabValue(newValue);
   };
 
+  /**
+   * Handles swipe gestures to change tabs
+   */
+  const handleSwipeLeft = () => {
+    if (tabValue < 1) {
+      setTabValue(tabValue + 1);
+    }
+  };
+
+  /**
+   * Handles swipe gestures to change tabs
+   */
+  const handleSwipeRight = () => {
+    if (tabValue > 0) {
+      setTabValue(tabValue - 1);
+    }
+  };
+
+  // Configure swipe handlers
+  const swipeHandlers = useSwipeable({
+    onSwipedLeft: handleSwipeLeft,
+    onSwipedRight: handleSwipeRight,
+    preventScrollOnSwipe: true,
+    trackMouse: true,
+  });
+
   return (
     <Page>
-      <div className={e('container')}>
+      <div className={e('container')} {...swipeHandlers}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 2 }}>
           <Tabs
             value={tabValue}
@@ -66,17 +93,21 @@ export const ArtworkDetailPage: FC = () => {
         </Box>
 
         <TabPanel value={tabValue} index={0}>
-          <img
-            className={e('image')}
-            width='100%'
-            height='auto'
-            src={`${imageUrl}&token=${token}`}
-            alt={title}
-          />
+          <div style={{ height: '300px' }}>
+            <img
+              className={e('image')}
+              width='100%'
+              height='auto'
+              src={`${imageUrl}&token=${token}`}
+              alt={title}
+            />
+          </div>
         </TabPanel>
 
         <TabPanel value={tabValue} index={1}>
-          <HeadphonesPreview overlayImageUrl={`${imageUrl}&token=${token}`} />
+          <div style={{ height: '300px' }}>
+            <HeadphonesPreview overlayImageUrl={`${imageUrl}&token=${token}`} />
+          </div>
         </TabPanel>
 
         <AboutArtwork title={title} author={author} />
