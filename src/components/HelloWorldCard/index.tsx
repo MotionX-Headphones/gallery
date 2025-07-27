@@ -55,6 +55,8 @@ export const HelloWorldCard: React.FC<{
   // Calculate scale factor for the stage
   const scale = stageSize.width / CANVAS_WIDTH;
 
+  const isGif = overlayImageUrl?.toLowerCase().includes('.gif');
+
   return (
     <div
       ref={containerRef}
@@ -78,7 +80,7 @@ export const HelloWorldCard: React.FC<{
           )}
 
           {/* Overlay image with quadrilateral clipping */}
-          {overlayImage && (
+          {overlayImage && !isGif && (
             <Group
               clipFunc={(ctx: CanvasRenderingContext2D) => {
                 // Define the quadrilateral clipping path
@@ -99,12 +101,15 @@ export const HelloWorldCard: React.FC<{
               />
             </Group>
           )}
-          <GifImage
-            x={1225 * scale}
-            y={2400 * scale}
-            width={(2140 - 1225) * scale}
-            height={(3115 - 2400) * scale}
-          />
+          {isGif && overlayImageUrl && (
+            <GifImage
+              x={1225 * scale}
+              y={2400 * scale}
+              width={(2140 - 1225) * scale}
+              height={(3115 - 2400) * scale}
+              gifUrl={overlayImageUrl!}
+            />
+          )}
         </Layer>
       </Stage>
     </div>

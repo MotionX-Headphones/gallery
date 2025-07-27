@@ -7,6 +7,7 @@ interface GifImageProps {
   width?: number;
   height?: number;
   scale?: number;
+  gifUrl: string;
 }
 
 const GifImage: React.FC<GifImageProps> = ({
@@ -15,6 +16,7 @@ const GifImage: React.FC<GifImageProps> = ({
   width,
   height,
   scale = 1,
+  gifUrl,
 }) => {
   const imageRef = React.useRef(null);
   const canvasRef = React.useRef(document.createElement('canvas'));
@@ -26,19 +28,23 @@ const GifImage: React.FC<GifImageProps> = ({
 
     script.onload = () => {
       // use external library to parse and draw gif animation
+      let isFirstFrame = true;
+
       function onDrawFrame(ctx: CanvasRenderingContext2D, frame: any) {
-        // update canvas size
-        canvasRef.current.width = frame.width;
-        canvasRef.current.height = frame.height;
+        // Only set canvas size on the first frame
+        if (isFirstFrame) {
+          canvasRef.current.width = frame.width;
+          canvasRef.current.height = frame.height;
+          isFirstFrame = false;
+        }
+
         // update canvas that we are using for Konva.Image
         ctx.drawImage(frame.buffer, 0, 0);
         // update Konva.Image
-        imageRef.current?.getLayer()?.batchDraw();
+        (imageRef.current as any)?.getLayer()?.batchDraw();
       }
 
-      (window as any)
-        .gifler('https://konvajs.org/assets/yoda.gif')
-        .frames(canvasRef.current, onDrawFrame);
+      (window as any).gifler(gifUrl).frames(canvasRef.current, onDrawFrame);
     };
 
     document.head.appendChild(script);
