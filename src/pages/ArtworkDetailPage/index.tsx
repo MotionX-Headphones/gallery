@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Tabs, Tab, Box } from '@mui/material';
 import { useSwipeable } from 'react-swipeable';
 
@@ -13,31 +13,10 @@ import AboutArtwork from './components/AboutArtwork';
 
 const [, e] = bem('artwork-detail-page');
 
-/**
- * TabPanel component for rendering tab content
- */
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: number;
-  value: number;
-}
-
-const TabPanel: FC<TabPanelProps> = ({ children, value, index }) => {
-  return (
-    <div
-      role='tabpanel'
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-    >
-      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
-    </div>
-  );
-};
-
 export const ArtworkDetailPage: FC = () => {
   const [searchParams] = useSearchParams();
-  const [tabValue, setTabValue] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const imageUrl = searchParams.get('imageUrl') || '';
   const title = searchParams.get('title') || '';
@@ -48,26 +27,36 @@ export const ArtworkDetailPage: FC = () => {
    * Handles tab change event
    */
   const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
-    setTabValue(newValue);
+    setCurrentIndex(newValue);
   };
 
   /**
-   * Handles swipe gestures to change tabs
+   * Handles swipe gestures to change views
    */
   const handleSwipeLeft = () => {
-    if (tabValue < 1) {
-      setTabValue(tabValue + 1);
+    if (currentIndex < 1) {
+      setCurrentIndex(currentIndex + 1);
     }
   };
 
   /**
-   * Handles swipe gestures to change tabs
+   * Handles swipe gestures to change views
    */
   const handleSwipeRight = () => {
-    if (tabValue > 0) {
-      setTabValue(tabValue - 1);
+    if (currentIndex > 0) {
+      setCurrentIndex(currentIndex - 1);
     }
   };
+
+  /**
+   * Updates container transform based on current index
+   */
+  useEffect(() => {
+    if (containerRef.current) {
+      const translateX = -currentIndex * 50;
+      containerRef.current.style.transform = `translateX(${translateX}%)`;
+    }
+  }, [currentIndex]);
 
   // Configure swipe handlers
   const swipeHandlers = useSwipeable({
@@ -82,7 +71,7 @@ export const ArtworkDetailPage: FC = () => {
       <div className={e('container')} {...swipeHandlers}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 2 }}>
           <Tabs
-            value={tabValue}
+            value={currentIndex}
             onChange={handleTabChange}
             aria-label='artwork detail tabs'
             centered
@@ -92,23 +81,40 @@ export const ArtworkDetailPage: FC = () => {
           </Tabs>
         </Box>
 
-        <TabPanel value={tabValue} index={0}>
-          <div style={{ height: '300px' }}>
-            <img
-              className={e('image')}
-              width='100%'
-              height='auto'
-              src={`${imageUrl}&token=${token}`}
-              alt={title}
-            />
-          </div>
-        </TabPanel>
+        {/* Swipeable container with overflow hidden */}
+        <div style={{ overflow: 'hidden', width: '100%' }}>
+          <div
+            ref={containerRef}
+            style={{
+              display: 'flex',
+              width: '200%',
+              transition: 'transform 0.3s ease-in-out',
+              transform: `translateX(-${currentIndex * 100}%)`,
+            }}
+          >
+            {/* Image view */}
+            <div style={{ width: '50%', flexShrink: 0 }}>
+              <div style={{ height: '380px' }}>
+                <img
+                  className={e('image')}
+                  width='100%'
+                  height='auto'
+                  src={`${imageUrl}&token=${token}`}
+                  alt={title}
+                />
+              </div>
+            </div>
 
-        <TabPanel value={tabValue} index={1}>
-          <div style={{ height: '300px' }}>
-            <HeadphonesPreview overlayImageUrl={`${imageUrl}&token=${token}`} />
+            {/* Headphones preview view */}
+            <div style={{ width: '50%', flexShrink: 0 }}>
+              <div style={{ height: '380px' }}>
+                <HeadphonesPreview
+                  overlayImageUrl={`${imageUrl}&token=${token}`}
+                />
+              </div>
+            </div>
           </div>
-        </TabPanel>
+        </div>
 
         <AboutArtwork title={title} author={author} />
       </div>
