@@ -1,6 +1,6 @@
 import { useRef, useEffect, useState } from 'react';
 import { Stage, Layer, Image, Group } from 'react-konva';
-
+import GifImage from './GifImage';
 const CANVAS_WIDTH = 3376;
 const CANVAS_HEIGHT = 3376;
 const IMAGE_URL =
@@ -99,6 +99,12 @@ export const HelloWorldCard: React.FC<{
               />
             </Group>
           )}
+          <GifImage
+            x={1225 * scale}
+            y={2400 * scale}
+            width={(2140 - 1225) * scale}
+            height={(3115 - 2400) * scale}
+          />
         </Layer>
       </Stage>
     </div>
