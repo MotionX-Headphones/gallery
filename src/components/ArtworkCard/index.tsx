@@ -141,7 +141,7 @@ export default function ArtworkCard({
           {author}
         </Typography>
       </CardContent>
-      <IconButton
+      {/* <IconButton
         aria-label='like'
         sx={{
           position: 'absolute',
@@ -155,7 +155,7 @@ export default function ArtworkCard({
         ) : (
           <FavoriteIcon color='disabled' />
         )}
-      </IconButton>
+      </IconButton> */}
     </Card>
   );
 }

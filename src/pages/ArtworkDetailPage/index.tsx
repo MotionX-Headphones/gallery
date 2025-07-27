@@ -94,8 +94,14 @@ export const ArtworkDetailPage: FC = () => {
           >
             {/* Image view */}
             <div style={{ width: '50%', flexShrink: 0 }}>
-              <div style={{ height: '380px' }}>
+              <div style={{ minHeight: '380px' }}>
                 <img
+                  style={{
+                    userSelect: 'none',
+                    pointerEvents: 'none',
+                    maxWidth: '500px',
+                    minHeight: '380px',
+                  }}
                   className={e('image')}
                   width='100%'
                   height='auto'
@@ -107,7 +113,7 @@ export const ArtworkDetailPage: FC = () => {
 
             {/* Headphones preview view */}
             <div style={{ width: '50%', flexShrink: 0 }}>
-              <div style={{ height: '380px' }}>
+              <div style={{ minHeight: '380px' }}>
                 <HeadphonesPreview
                   overlayImageUrl={`${imageUrl}&token=${token}`}
                 />
