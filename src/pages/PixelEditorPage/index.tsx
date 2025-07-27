@@ -12,6 +12,8 @@ import { Typography } from '@mui/material';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Snackbar from '@mui/material/Snackbar';
+import LightbulbIcon from '@mui/icons-material/Lightbulb';
+import RestoreIcon from '@mui/icons-material/Restore';
 
 const ROWS = 12;
 const COLS = 15;
@@ -103,6 +105,39 @@ export const PixelEditorPage = () => {
     });
   };
 
+  function clearPreviewPixelArt() {
+    localStorage.removeItem('pixel-art-preview');
+    setSnackbarMessage('Preview pixel art cleared!');
+    setOpenSnackbar(true);
+  }
+
+  const setAsPreviewPixelArt = () => {
+    const element = document.getElementById('pixel-art-node');
+    if (!element) {
+      console.error('Pixel art element not found');
+      return;
+    }
+
+    domtoimage
+      .toPng(element)
+      .then((dataUrl) => {
+        if (dataUrl) {
+          localStorage.setItem('pixel-art-preview', dataUrl);
+          setSnackbarMessage(
+            'You have set the pixel art as preview! You will see it in Artwork Detail previews.'
+          );
+          setOpenSnackbar(true);
+          setTimeout(() => {
+            setOpenDialog(false);
+          }, 1000);
+        }
+      })
+      .catch((err) => {
+        console.error('Failed to set pixel art as preview', err);
+        clearPreviewPixelArt();
+      });
+  };
+
   return (
     <DrawingContext.Provider value={{ drawing, mode, setDrawing, setMode }}>
       <div className='pixelEditorPage'>
@@ -141,6 +176,28 @@ export const PixelEditorPage = () => {
           }}
         >
           Download Pixel Art
+        </Button>
+        <Button
+          onClick={setAsPreviewPixelArt}
+          startIcon={<LightbulbIcon />}
+          style={{
+            marginTop: 20,
+            color: 'var(--tg-theme-text-color)',
+            borderColor: 'var(--tg-theme-text-color)',
+          }}
+        >
+          Set as preview Pixel Art
+        </Button>
+        <Button
+          onClick={clearPreviewPixelArt}
+          startIcon={<RestoreIcon />}
+          style={{
+            marginTop: 20,
+            color: 'var(--tg-theme-text-color)',
+            borderColor: 'var(--tg-theme-text-color)',
+          }}
+        >
+          Restore Preview Pixel Art
         </Button>
         <DialogComponent
           open={openDialog}

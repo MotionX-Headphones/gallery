@@ -79,13 +79,7 @@ export const ArtworkDetailPage: FC = () => {
           <HelloWorldCard overlayImageUrl={`${imageUrl}&token=${token}`} />
         </TabPanel>
 
-        <AboutArtwork
-          title={title}
-          author={author}
-          description={
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
-          }
-        />
+        <AboutArtwork title={title} author={author} />
       </div>
     </Page>
   );

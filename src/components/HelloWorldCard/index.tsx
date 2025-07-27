@@ -14,6 +14,8 @@ export const HelloWorldCard: React.FC<{
   const [overlayImage, setOverlayImage] = useState<HTMLImageElement | null>(
     null
   );
+  const [overlayPixelArt, setOverlayPixelArt] =
+    useState<HTMLImageElement | null>(null);
   const [stageSize, setStageSize] = useState({ width: 0, height: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -32,6 +34,15 @@ export const HelloWorldCard: React.FC<{
     img.onload = () => setOverlayImage(img);
     img.src = overlayImageUrl;
   }, [overlayImageUrl]);
+
+  useEffect(() => {
+    const pixelArt = localStorage.getItem('pixel-art-preview');
+    if (pixelArt) {
+      const img = new window.Image();
+      img.onload = () => setOverlayPixelArt(img);
+      img.src = pixelArt;
+    }
+  }, [overlayPixelArt]);
 
   // Calculate stage size based on container
   useEffect(() => {
@@ -101,6 +112,7 @@ export const HelloWorldCard: React.FC<{
               />
             </Group>
           )}
+
           {isGif && overlayImageUrl && (
             <GifImage
               x={1225 * scale}
@@ -108,6 +120,15 @@ export const HelloWorldCard: React.FC<{
               width={(2140 - 1225) * scale}
               height={(3115 - 2400) * scale}
               gifUrl={overlayImageUrl!}
+            />
+          )}
+          {overlayPixelArt && (
+            <Image
+              image={overlayPixelArt}
+              x={1455 * scale}
+              y={835 * scale}
+              width={450 * scale}
+              height={520 * scale}
             />
           )}
         </Layer>
