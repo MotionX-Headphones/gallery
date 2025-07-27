@@ -6,7 +6,7 @@ const CANVAS_HEIGHT = 3376;
 const IMAGE_URL =
   'https://firebasestorage.googleapis.com/v0/b/motionx-project.appspot.com/o/app-resources%2Fheadphones-squre.png?alt=media&token=22fa447b-4e6f-4a27-9741-c8361298c8fe';
 
-export const HelloWorldCard: React.FC<{
+export const HeadphonesPreview: React.FC<{
   overlayImageUrl?: string;
 }> = ({ overlayImageUrl }) => {
   const [backgroundImage, setBackgroundImage] =

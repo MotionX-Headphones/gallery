@@ -4,7 +4,7 @@ import { Tabs, Tab, Box } from '@mui/material';
 
 import { Page } from '@/components/Page.tsx';
 import { bem } from '@/css/bem.ts';
-import { HelloWorldCard } from '@/components/HelloWorldCard';
+import { HeadphonesPreview } from '@/components/HeadphonesPreview';
 
 import './ArtworkDetailPage.css';
 import { useSearchParams } from 'react-router-dom';
@@ -76,7 +76,7 @@ export const ArtworkDetailPage: FC = () => {
         </TabPanel>
 
         <TabPanel value={tabValue} index={1}>
-          <HelloWorldCard overlayImageUrl={`${imageUrl}&token=${token}`} />
+          <HeadphonesPreview overlayImageUrl={`${imageUrl}&token=${token}`} />
         </TabPanel>
 
         <AboutArtwork title={title} author={author} />
