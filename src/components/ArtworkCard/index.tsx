@@ -69,9 +69,9 @@ export default function ArtworkCard({
   useEffect(() => {
     setLiked(isLiked || false);
   }, []);
-  const handleLike = () => {
-    setLiked(!liked);
-  };
+  // const handleLike = () => {
+  //   setLiked(!liked);
+  // };
   const isEmpty = !imageUrl || !title || !author;
   if (isEmpty) {
     return (
