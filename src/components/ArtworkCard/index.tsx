@@ -2,8 +2,8 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import FavoriteIcon from '@mui/icons-material/Favorite';
+// import IconButton from '@mui/material/IconButton';
+// import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { popup } from '@telegram-apps/sdk-react';
@@ -19,7 +19,7 @@ export default function ArtworkCard({
   author: string;
   isLiked?: boolean;
 }) {
-  const [liked, setLiked] = useState(isLiked || false);
+  const [, setLiked] = useState(isLiked || false);
   const navigate = useNavigate();
 
   /**
