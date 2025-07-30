@@ -211,5 +211,7 @@ const mockData = [
   },
 ];
 export const getArtWorks = async () => {
-  return mockData;
+  // Shuffle the mockData array to return random order
+  const shuffled = [...mockData].sort(() => Math.random() - 0.5);
+  return shuffled;
 };
