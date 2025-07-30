@@ -101,6 +101,7 @@ export const ArtworkDetailPage: FC = () => {
                     pointerEvents: 'none',
                     maxWidth: '500px',
                     minHeight: '380px',
+                    objectFit: 'contain',
                   }}
                   className={e('image')}
                   width='100%'
