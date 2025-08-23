@@ -3,6 +3,7 @@ import { TonConnectUIProvider } from '@tonconnect/ui-react';
 import { App } from '@/components/App.tsx';
 import { ErrorBoundary } from '@/components/ErrorBoundary.tsx';
 import { publicUrl } from '@/helpers/publicUrl.ts';
+import { ThemeProvider } from '@/components/theme-provider.tsx';
 
 function ErrorBoundaryError({ error }: { error: unknown }) {
   return (
@@ -25,7 +26,9 @@ export function Root() {
   return (
     <ErrorBoundary fallback={ErrorBoundaryError}>
       <TonConnectUIProvider manifestUrl={publicUrl('tonconnect-manifest.json')}>
-        <App />
+        <ThemeProvider defaultTheme='dark' storageKey='vite-ui-theme'>
+          <App />
+        </ThemeProvider>
       </TonConnectUIProvider>
     </ErrorBoundary>
   );

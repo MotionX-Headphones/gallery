@@ -8,6 +8,7 @@ import {
 import { AppRoot } from '@telegram-apps/telegram-ui';
 import '@telegram-apps/telegram-ui/dist/styles.css';
 import { routes } from '@/navigation/routes.tsx';
+import { Toaster } from '@/components/ui/sonner';
 
 export function App() {
   const lp = useMemo(() => retrieveLaunchParams(), []);
@@ -26,6 +27,7 @@ export function App() {
           <Route path='*' element={<Navigate to='/' />} />
         </Routes>
       </HashRouter>
+      <Toaster position='top-center' />
     </AppRoot>
   );
 }

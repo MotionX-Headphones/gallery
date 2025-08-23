@@ -1,7 +1,7 @@
 .pixelEditorPage {
   height: calc(100vh - 56px);
   width: 100%;
-  background-color: var(--tg-theme-secondary-bg-color);
+  background-color: var(--background);
   display: flex;
   flex-direction: column;
   align-items: center;

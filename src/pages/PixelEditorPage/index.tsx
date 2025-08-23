@@ -5,16 +5,14 @@ import Pixel from './Pixel';
 import Button from '@mui/material/Button';
 import BrushIcon from '@mui/icons-material/Brush';
 import AutoFixOffIcon from '@mui/icons-material/AutoFixOff';
-import DownloadIcon from '@mui/icons-material/Download';
 import { retrieveLaunchParams } from '@telegram-apps/sdk';
 import DialogComponent from './DialogComponent';
 import { Typography } from '@mui/material';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Snackbar from '@mui/material/Snackbar';
-import LightbulbIcon from '@mui/icons-material/Lightbulb';
-import RestoreIcon from '@mui/icons-material/Restore';
-
+import { Button as ButtonShadCn } from '@/components/ui/button';
+import { toast } from 'sonner';
 const ROWS = 12;
 const COLS = 15;
 
@@ -71,15 +69,12 @@ export const PixelEditorPage = () => {
                   if (navigator.clipboard) {
                     try {
                       await navigator.clipboard.writeText(dataUrl);
-                      setSnackbarMessage('Copied to clipboard!');
-                      setOpenSnackbar(true);
+                      toast.success('Copied to clipboard!');
                     } catch (err) {
-                      setSnackbarMessage('Failed to copy!');
-                      setOpenSnackbar(true);
+                      toast.error('Failed to copy!');
                     }
                   } else {
-                    setSnackbarMessage('Clipboard API not supported.');
-                    setOpenSnackbar(true);
+                    toast.error('Clipboard API not supported.');
                   }
                 }}
               >
@@ -107,8 +102,7 @@ export const PixelEditorPage = () => {
 
   function clearPreviewPixelArt() {
     localStorage.removeItem('pixel-art-preview');
-    setSnackbarMessage('Preview pixel art cleared!');
-    setOpenSnackbar(true);
+    toast.success('Preview pixel art cleared!');
   }
 
   const setAsPreviewPixelArt = () => {
@@ -123,10 +117,9 @@ export const PixelEditorPage = () => {
       .then((dataUrl) => {
         if (dataUrl) {
           localStorage.setItem('pixel-art-preview', dataUrl);
-          setSnackbarMessage(
+          toast.success(
             'You have set the pixel art as preview! You will see it in Artwork Detail previews.'
           );
-          setOpenSnackbar(true);
           setTimeout(() => {
             setOpenDialog(false);
           }, 1000);
@@ -142,7 +135,7 @@ export const PixelEditorPage = () => {
     <DrawingContext.Provider value={{ drawing, mode, setDrawing, setMode }}>
       <div className='pixelEditorPage'>
         <div style={{ marginBottom: 12, display: 'flex', gap: 8 }}>
-          <Button
+          <ButtonShadCn
             onClick={() => setMode('draw')}
             className={`pixelEditor-btn pixelEditor-btn--draw${
               mode === 'draw' ? ' active' : ''
@@ -150,8 +143,8 @@ export const PixelEditorPage = () => {
             aria-label='Draw'
           >
             <BrushIcon fontSize='small' />
-          </Button>
-          <Button
+          </ButtonShadCn>
+          <ButtonShadCn
             onClick={() => setMode('erase')}
             className={`pixelEditor-btn pixelEditor-btn--erase${
               mode === 'erase' ? ' active' : ''
@@ -159,46 +152,34 @@ export const PixelEditorPage = () => {
             aria-label='Erase'
           >
             <AutoFixOffIcon fontSize='small' />
-          </Button>
+          </ButtonShadCn>
         </div>
         <div id='pixel-art-node' className='canvasContainer'>
           {Array.from({ length: ROWS * COLS }).map((_, idx) => (
             <Pixel key={idx} />
           ))}
         </div>
-        <Button
+        <ButtonShadCn
+          className='mt-10'
+          variant='outline'
           onClick={downloadPixelArt}
-          startIcon={<DownloadIcon />}
-          style={{
-            marginTop: 20,
-            color: 'var(--tg-theme-text-color)',
-            borderColor: 'var(--tg-theme-text-color)',
-          }}
         >
           Download Pixel Art
-        </Button>
-        <Button
+        </ButtonShadCn>
+        <ButtonShadCn
+          className='mt-4'
+          variant='outline'
           onClick={setAsPreviewPixelArt}
-          startIcon={<LightbulbIcon />}
-          style={{
-            marginTop: 20,
-            color: 'var(--tg-theme-text-color)',
-            borderColor: 'var(--tg-theme-text-color)',
-          }}
         >
           Set as preview Pixel Art
-        </Button>
-        <Button
+        </ButtonShadCn>
+        <ButtonShadCn
+          className='mt-4'
+          variant='outline'
           onClick={clearPreviewPixelArt}
-          startIcon={<RestoreIcon />}
-          style={{
-            marginTop: 20,
-            color: 'var(--tg-theme-text-color)',
-            borderColor: 'var(--tg-theme-text-color)',
-          }}
         >
           Restore Preview Pixel Art
-        </Button>
+        </ButtonShadCn>
         <DialogComponent
           open={openDialog}
           onClose={() => setOpenDialog(false)}

@@ -1,10 +1,12 @@
+@import '@/index.css';
 .scrollableDiv {
     height: calc(100vh - 56px);
     overflow: scroll;
     scrollbar-width: none;
     &::-webkit-scrollbar {
-        display: none; 
+        display: none;
     }
+    background-color: var(--background);
     &::-webkit-scrollbar-track {
         background: transparent;
     }
