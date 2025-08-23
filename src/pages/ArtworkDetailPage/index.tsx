@@ -83,7 +83,7 @@ export const ArtworkDetailPage: FC = () => {
         </Tabs>
 
         {/* Swipeable container with overflow hidden */}
-        <div className='mb-10'>
+        <div className='w-full'>
           <div
             ref={containerRef}
             style={{
@@ -95,7 +95,7 @@ export const ArtworkDetailPage: FC = () => {
           >
             {/* Image view */}
             <div className='w-1/2 shrink-0'>
-              <div className='min-h-[380px] flex items-center justify-center'>
+              <div className='min-h-[380px] flex items-center justify-center w-full'>
                 <ImageZoom>
                   <img
                     className={`${e('image')} max-w-full h-auto object-contain`}
@@ -117,7 +117,8 @@ export const ArtworkDetailPage: FC = () => {
             </div>
           </div>
         </div>
-
+      </div>
+      <div className='px-4'>
         <AboutArtwork title={title} author={author} />
       </div>
     </Page>
