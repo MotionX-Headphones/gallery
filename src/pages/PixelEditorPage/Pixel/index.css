@@ -8,6 +8,8 @@
   cursor: pointer;
   border: none;
   padding: 0;
+  
+  /* Prevent dragging and selection */
   -webkit-user-drag: none;
   -khtml-user-drag: none;
   -moz-user-drag: none;
@@ -17,6 +19,19 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  
+  /* Mobile touch optimizations */
+  touch-action: none; /* Prevent browser touch behaviors like zoom, pan, scroll */
+  -webkit-touch-callout: none; /* Prevent iOS callout on long press */
+  -webkit-tap-highlight-color: transparent; /* Remove blue highlight on tap */
+  
+  /* Improve touch responsiveness */
+  will-change: background, transform; /* Optimize for changes */
+  transition: background-color 0.05s ease; /* Smooth visual feedback */
+  
+  /* Ensure minimum touch target size for mobile accessibility */
+  min-width: 18px;
+  min-height: 18px;
 }
 
 .pixel.selected {

@@ -16,6 +16,19 @@
   height: fit-content;
   width: fit-content;
   background: #2c2c2c;
+  
+  /* Mobile touch optimizations for canvas container */
+  touch-action: none; /* Prevent scrolling during drawing */
+  -webkit-user-select: none; /* Prevent text selection */
+  user-select: none;
+  -webkit-touch-callout: none; /* Prevent iOS callout */
+  
+  /* Prevent context menu on long press */
+  -webkit-context-menu: none;
+  context-menu: none;
+  
+  /* Smooth interactions */
+  will-change: auto;
 }
 
 .pixelEditor-btn {

@@ -30,14 +30,25 @@ export const PixelEditorPage = () => {
   const [drawing, setDrawing] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
   const [dataUrl, setDataUrl] = useState('');
-  // Handle mouseup/touchend globally to stop drawing
+  // Handle pointer events globally to stop drawing (unified for mouse, touch, pen)
   React.useEffect(() => {
     const stopDrawing = () => setDrawing(false);
+
+    // Pointer events provide unified handling for mouse, touch, and pen
+    window.addEventListener('pointerup', stopDrawing);
+    window.addEventListener('pointercancel', stopDrawing);
+
+    // Keep legacy events for better browser compatibility
     window.addEventListener('mouseup', stopDrawing);
     window.addEventListener('touchend', stopDrawing);
+    window.addEventListener('touchcancel', stopDrawing);
+
     return () => {
+      window.removeEventListener('pointerup', stopDrawing);
+      window.removeEventListener('pointercancel', stopDrawing);
       window.removeEventListener('mouseup', stopDrawing);
       window.removeEventListener('touchend', stopDrawing);
+      window.removeEventListener('touchcancel', stopDrawing);
     };
   }, []);
 
