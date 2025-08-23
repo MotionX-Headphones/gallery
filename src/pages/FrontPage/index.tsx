@@ -1,19 +1,21 @@
 import { useState } from 'react';
 import { IndexPage } from '@/pages/IndexPage/IndexPage';
 import { GalleryPage } from '@/pages/GalleryPage/index';
-import { BottomNavigation, BottomNavigationAction } from '@mui/material';
-import RestoreIcon from '@mui/icons-material/Restore';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ExploreOutlinedIcon from '@mui/icons-material/ExploreOutlined';
+
 import { PixelEditorPage } from '@/pages/PixelEditorPage/index';
-import BrushIcon from '@mui/icons-material/Brush';
 import './index.css';
+import {
+  MenuDock,
+  type MenuDockItem,
+} from '@/components/ui/shadcn-io/menu-dock';
+import { Home, Palette } from 'lucide-react';
+
 export const FrontPage = () => {
   const [value, setValue] = useState('gallery');
 
-  const handleChange = (_event: React.SyntheticEvent, newValue: string) => {
-    setValue(newValue);
-  };
+  // const handleChange = (_event: React.SyntheticEvent, newValue: string) => {
+  //   setValue(newValue);
+  // };
 
   // Function to scroll to top of #scrollableDiv
   const scrollToTop = () => {
@@ -23,6 +25,25 @@ export const FrontPage = () => {
     }
   };
 
+  const handleHomeFeed = () => {
+    setValue('gallery');
+    scrollToTop();
+  };
+
+  const handlePixelEditor = () => {
+    setValue('pixelEditor');
+  };
+
+  const items: MenuDockItem[] = [
+    { label: 'Home Feed', icon: Home, onClick: handleHomeFeed },
+    // { label: 'User', icon: User },
+    {
+      label: 'Pixel Editor',
+      icon: Palette,
+      onClick: handlePixelEditor,
+    },
+  ];
+
   return (
     <>
       <div id='scrollableDiv' className='scrollableDiv'>
@@ -30,57 +51,15 @@ export const FrontPage = () => {
         {value === 'gallery' && <GalleryPage />}
         {value === 'pixelEditor' && <PixelEditorPage />}
       </div>
-      <BottomNavigation
-        sx={{
-          width: '100%',
-          position: 'fixed',
-          bottom: 0,
-          background: 'var(--tg-theme-bottom-bar-bg-color)',
-          color: 'var(--tg-theme-text-color)',
-          '& .MuiBottomNavigationAction-root': {
-            color: 'var(--tg-theme-text-color)',
-          },
-          '& .Mui-selected, & .Mui-selected svg': {
-            color: 'var(--tg-theme-accent-color)',
-          },
-        }}
-        value={value}
-        onChange={handleChange}
-      >
-        <BottomNavigationAction
-          label='Gallery'
-          value='gallery'
-          icon={<ExploreOutlinedIcon />}
-          sx={{ color: 'var(--tg-theme-text-color)' }}
-          onClick={() => {
-            if (value === 'gallery') {
-              scrollToTop();
-            }
-          }}
+      <div className='fixed bottom-0 left-0 w-screen flex items-center justify-center h-[60px] p-4'>
+        <MenuDock
+          className='lg:hidden w-full flex items-center justify-center gap-15'
+          items={items}
+          variant='compact'
+          animated={false}
+          orientation='horizontal'
         />
-        <BottomNavigationAction
-          label='Pixel Editor'
-          value='pixelEditor'
-          icon={<BrushIcon />}
-          sx={{ color: 'var(--tg-theme-text-color)' }}
-        />
-        {false && (
-          <BottomNavigationAction
-            label='Home'
-            value='home'
-            icon={<RestoreIcon />}
-            sx={{ color: 'var(--tg-theme-text-color)' }}
-          />
-        )}
-        {false && (
-          <BottomNavigationAction
-            label='Settings'
-            value='settings'
-            icon={<FavoriteIcon />}
-            sx={{ color: 'var(--tg-theme-text-color)' }}
-          />
-        )}
-      </BottomNavigation>
+      </div>
     </>
   );
 };
