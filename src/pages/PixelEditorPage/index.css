@@ -62,3 +62,9 @@
   /* No extra styles needed, but kept for clarity */
 }
 
+.pixelEditor-btn--reset {
+  margin-left: 30px;
+  background: var(--destructive);
+  color: var(--destructive-foreground);
+  font-weight: bold;
+}

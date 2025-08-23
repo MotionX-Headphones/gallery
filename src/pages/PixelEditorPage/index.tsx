@@ -1,9 +1,7 @@
 import './index.css';
 import React, { useState, createContext, useContext } from 'react';
 import domtoimage from 'dom-to-image';
-import Pixel from '@/pages/PixelEditorPage/Pixel';
-import BrushIcon from '@mui/icons-material/Brush';
-import AutoFixOffIcon from '@mui/icons-material/AutoFixOff';
+import Pixel, { PixelRef } from '@/pages/PixelEditorPage/Pixel';
 import { retrieveLaunchParams } from '@telegram-apps/sdk';
 import { Button as ButtonShadCn } from '@/components/ui/button';
 import { toast } from 'sonner';
@@ -14,6 +12,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import { Brush, Eraser, Trash2 } from 'lucide-react';
 const ROWS = 12;
 const COLS = 15;
 
@@ -30,6 +29,17 @@ export const PixelEditorPage = () => {
   const [drawing, setDrawing] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
   const [dataUrl, setDataUrl] = useState('');
+  const [pixelRefs, setPixelRefs] = useState<PixelRef[]>([]);
+
+  React.useEffect(() => {
+    return setPixelRefs(
+      Array.from({ length: ROWS * COLS }, () => ({
+        current: React.createRef<PixelRef>(),
+        setSelected: () => {},
+      }))
+    );
+  }, []);
+
   // Handle pointer events globally to stop drawing (unified for mouse, touch, pen)
   React.useEffect(() => {
     const stopDrawing = () => setDrawing(false);
@@ -106,6 +116,12 @@ export const PixelEditorPage = () => {
       });
   };
 
+  const clearPixelArt = () => {
+    pixelRefs.forEach((ref) => {
+      ref?.current?.setSelected(false);
+    });
+  };
+
   return (
     <DrawingContext.Provider value={{ drawing, mode, setDrawing, setMode }}>
       <div className='pixelEditorPage'>
@@ -118,7 +134,7 @@ export const PixelEditorPage = () => {
             }`}
             aria-label='Draw'
           >
-            <BrushIcon fontSize='small' />
+            <Brush />
           </ButtonShadCn>
           <ButtonShadCn
             variant='outline'
@@ -128,12 +144,21 @@ export const PixelEditorPage = () => {
             }`}
             aria-label='Erase'
           >
-            <AutoFixOffIcon fontSize='small' />
+            <Eraser />
+          </ButtonShadCn>
+          <ButtonShadCn
+            className='pixelEditor-btn pixelEditor-btn--reset'
+            onClick={clearPixelArt}
+          >
+            <Trash2 />
           </ButtonShadCn>
         </div>
         <div id='pixel-art-node' className='canvasContainer'>
           {Array.from({ length: ROWS * COLS }).map((_, idx) => (
-            <Pixel key={idx} />
+            <Pixel
+              key={idx}
+              ref={pixelRefs[idx] as unknown as React.RefObject<PixelRef>}
+            />
           ))}
         </div>
         <ButtonShadCn

@@ -1,11 +1,34 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  useCallback,
+  forwardRef,
+  useImperativeHandle,
+} from 'react';
 import './index.css';
 import { useDrawingContext } from '../index';
 
-const Pixel: React.FC = () => {
+// Interface for exposed methods via ref
+export interface PixelRef {
+  current: any;
+  setSelected: (selected: boolean) => void;
+}
+
+const Pixel = forwardRef<PixelRef>((props, ref) => {
   const [selected, setSelected] = useState(false);
   const { drawing, mode, setDrawing } = useDrawingContext();
-  const ref = useRef<HTMLDivElement>(null);
+  const divRef = useRef<HTMLDivElement>(null);
+
+  // Expose setSelected method to parent via ref
+  useImperativeHandle(
+    ref,
+    () => ({
+      current: divRef,
+      setSelected,
+    }),
+    []
+  );
 
   // Set pixel state based on mode
   const paint = useCallback(() => {
@@ -45,8 +68,8 @@ const Pixel: React.FC = () => {
       e.preventDefault();
 
       // Capture the pointer for smooth tracking
-      if (ref.current) {
-        ref.current.setPointerCapture(e.pointerId);
+      if (divRef.current) {
+        divRef.current.setPointerCapture(e.pointerId);
       }
 
       setDrawing(true);
@@ -80,7 +103,7 @@ const Pixel: React.FC = () => {
       e.preventDefault();
 
       // Check if pointer is over this pixel element
-      const rect = ref.current?.getBoundingClientRect();
+      const rect = divRef.current?.getBoundingClientRect();
       if (
         rect &&
         e.clientX >= rect.left &&
@@ -96,7 +119,7 @@ const Pixel: React.FC = () => {
 
   // Global pointer events for better touch handling
   useEffect(() => {
-    const node = ref.current;
+    const node = divRef.current;
     if (!node) return;
 
     // Handle touch-specific improvements
@@ -150,7 +173,7 @@ const Pixel: React.FC = () => {
 
   return (
     <div
-      ref={ref}
+      ref={divRef}
       className={`pixel${selected ? ' selected' : ''}`}
       // Mouse events for desktop (original smooth experience)
       onMouseDown={handleMouseDown}
@@ -165,6 +188,9 @@ const Pixel: React.FC = () => {
       }}
     />
   );
-};
+});
+
+// Add display name for better debugging
+Pixel.displayName = 'Pixel';
 
 export default Pixel;
