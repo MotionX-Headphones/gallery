@@ -51,43 +51,9 @@ export const PixelEditorPage = () => {
     const { tgWebAppPlatform: platform } = launchParams;
 
     domtoimage.toPng(element).then((dataUrl) => {
-      setDataUrl(dataUrl);
       if (platform === 'ios' || platform === 'android') {
-        // setDialogChildren(
-        //   <Card sx={{ mt: 2 }}>
-        //     <CardContent>
-        //       <Typography variant='body1' sx={{ mb: 2 }}>
-        //         Due to Telegram limitations, you have to copy the Base64 string
-        //         of the image and retrieve the image file via browser or other
-        //         tools.
-        //       </Typography>
-        //       <Button
-        //         variant='contained'
-        //         onClick={async () => {
-        //           if (navigator.clipboard) {
-        //             try {
-        //               await navigator.clipboard.writeText(dataUrl);
-        //               toast.success('Copied to clipboard!');
-        //             } catch (err) {
-        //               toast.error('Failed to copy!');
-        //             }
-        //           } else {
-        //             toast.error('Clipboard API not supported.');
-        //           }
-        //         }}
-        //       >
-        //         Copy Base64
-        //       </Button>
-        //       <Typography
-        //         variant='body2'
-        //         sx={{ wordBreak: 'break-all', mb: 2 }}
-        //       >
-        //         {dataUrl}
-        //       </Typography>
-        //     </CardContent>
-        //   </Card>
-        // );
         setOpenDialog(true);
+        setDataUrl(dataUrl);
       } else {
         let a = document.createElement('a');
         a.href = dataUrl;
