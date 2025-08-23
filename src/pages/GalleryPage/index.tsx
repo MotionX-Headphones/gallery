@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import ArtworkCard from '../../components/ArtworkCard';
+// import ArtworkCard from '../../components/ArtworkCard';
+import ShadArtworkCard from '@/components/ShadArtworkCard';
 import Skeleton from '@mui/material/Skeleton';
 import CircularProgress from '@mui/material/CircularProgress';
 import { getArtWorks } from '@/utils/request/gallery';
@@ -112,13 +113,13 @@ export const GalleryPage = () => {
                   padding: '0 4px',
                 }}
               >
-                {firstItem && <ArtworkCard {...firstItem} />}
+                {firstItem && <ShadArtworkCard {...firstItem} />}
                 {secondItem ? (
-                  <ArtworkCard {...secondItem} />
+                  <ShadArtworkCard {...secondItem} />
                 ) : (
                   isLastRow &&
                   isOdd && (
-                    <ArtworkCard
+                    <ShadArtworkCard
                       imageUrl={''}
                       title={''}
                       author={''}
