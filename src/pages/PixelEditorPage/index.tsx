@@ -1,17 +1,19 @@
 import './index.css';
 import React, { useState, createContext, useContext } from 'react';
 import domtoimage from 'dom-to-image';
-import Pixel from './Pixel';
-import Button from '@mui/material/Button';
+import Pixel from '@/pages/PixelEditorPage/Pixel';
 import BrushIcon from '@mui/icons-material/Brush';
 import AutoFixOffIcon from '@mui/icons-material/AutoFixOff';
 import { retrieveLaunchParams } from '@telegram-apps/sdk';
-import DialogComponent from './DialogComponent';
-import { Typography } from '@mui/material';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
 import { Button as ButtonShadCn } from '@/components/ui/button';
 import { toast } from 'sonner';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
 const ROWS = 12;
 const COLS = 15;
 
@@ -26,11 +28,8 @@ const DrawingContext = createContext({
 export const PixelEditorPage = () => {
   const [mode, setMode] = useState<'draw' | 'erase'>('draw');
   const [drawing, setDrawing] = useState(false);
-  const [dialogChildren, setDialogChildren] = useState<React.ReactNode | null>(
-    null
-  );
   const [openDialog, setOpenDialog] = useState(false);
-
+  const [dataUrl, setDataUrl] = useState('');
   // Handle mouseup/touchend globally to stop drawing
   React.useEffect(() => {
     const stopDrawing = () => setDrawing(false);
@@ -52,41 +51,42 @@ export const PixelEditorPage = () => {
     const { tgWebAppPlatform: platform } = launchParams;
 
     domtoimage.toPng(element).then((dataUrl) => {
+      setDataUrl(dataUrl);
       if (platform === 'ios' || platform === 'android') {
-        setDialogChildren(
-          <Card sx={{ mt: 2 }}>
-            <CardContent>
-              <Typography variant='body1' sx={{ mb: 2 }}>
-                Due to Telegram limitations, you have to copy the Base64 string
-                of the image and retrieve the image file via browser or other
-                tools.
-              </Typography>
-              <Button
-                variant='contained'
-                onClick={async () => {
-                  if (navigator.clipboard) {
-                    try {
-                      await navigator.clipboard.writeText(dataUrl);
-                      toast.success('Copied to clipboard!');
-                    } catch (err) {
-                      toast.error('Failed to copy!');
-                    }
-                  } else {
-                    toast.error('Clipboard API not supported.');
-                  }
-                }}
-              >
-                Copy Base64
-              </Button>
-              <Typography
-                variant='body2'
-                sx={{ wordBreak: 'break-all', mb: 2 }}
-              >
-                {dataUrl}
-              </Typography>
-            </CardContent>
-          </Card>
-        );
+        // setDialogChildren(
+        //   <Card sx={{ mt: 2 }}>
+        //     <CardContent>
+        //       <Typography variant='body1' sx={{ mb: 2 }}>
+        //         Due to Telegram limitations, you have to copy the Base64 string
+        //         of the image and retrieve the image file via browser or other
+        //         tools.
+        //       </Typography>
+        //       <Button
+        //         variant='contained'
+        //         onClick={async () => {
+        //           if (navigator.clipboard) {
+        //             try {
+        //               await navigator.clipboard.writeText(dataUrl);
+        //               toast.success('Copied to clipboard!');
+        //             } catch (err) {
+        //               toast.error('Failed to copy!');
+        //             }
+        //           } else {
+        //             toast.error('Clipboard API not supported.');
+        //           }
+        //         }}
+        //       >
+        //         Copy Base64
+        //       </Button>
+        //       <Typography
+        //         variant='body2'
+        //         sx={{ wordBreak: 'break-all', mb: 2 }}
+        //       >
+        //         {dataUrl}
+        //       </Typography>
+        //     </CardContent>
+        //   </Card>
+        // );
         setOpenDialog(true);
       } else {
         let a = document.createElement('a');
@@ -180,13 +180,33 @@ export const PixelEditorPage = () => {
         >
           Restore Preview Pixel Art
         </ButtonShadCn>
-        <DialogComponent
-          open={openDialog}
-          onClose={() => setOpenDialog(false)}
-          title='Download Pixel Art'
-        >
-          {dialogChildren}
-        </DialogComponent>
+        <Dialog open={openDialog} onOpenChange={setOpenDialog}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Download Pixel Art</DialogTitle>
+              <DialogDescription>
+                <p>
+                  Due to Telegram restrictions, you have to copy the Base64
+                  string of the image and retrieve the image file via browser or
+                  other tools.
+                </p>
+                <ButtonShadCn
+                  variant='default'
+                  className='mt-6 w-full'
+                  onClick={() => {
+                    if (navigator.clipboard) {
+                      navigator.clipboard.writeText(dataUrl);
+                      toast.success('Copied to clipboard!');
+                      setOpenDialog(false);
+                    }
+                  }}
+                >
+                  Copy Base64
+                </ButtonShadCn>
+              </DialogDescription>
+            </DialogHeader>
+          </DialogContent>
+        </Dialog>
       </div>
     </DrawingContext.Provider>
   );
