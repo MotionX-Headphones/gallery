@@ -15,7 +15,7 @@ export interface PixelRef {
   setSelected: (selected: boolean) => void;
 }
 
-const Pixel = forwardRef<PixelRef>((props, ref) => {
+const Pixel = forwardRef<PixelRef>((_props, ref) => {
   const [selected, setSelected] = useState(false);
   const { drawing, mode, setDrawing } = useDrawingContext();
   const divRef = useRef<HTMLDivElement>(null);
