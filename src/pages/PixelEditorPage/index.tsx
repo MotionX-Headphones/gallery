@@ -134,6 +134,7 @@ export const PixelEditorPage = () => {
       <div className='pixelEditorPage'>
         <div style={{ marginBottom: 12, display: 'flex', gap: 8 }}>
           <ButtonShadCn
+            variant='outline'
             onClick={() => setMode('draw')}
             className={`pixelEditor-btn pixelEditor-btn--draw${
               mode === 'draw' ? ' active' : ''
@@ -143,6 +144,7 @@ export const PixelEditorPage = () => {
             <BrushIcon fontSize='small' />
           </ButtonShadCn>
           <ButtonShadCn
+            variant='outline'
             onClick={() => setMode('erase')}
             className={`pixelEditor-btn pixelEditor-btn--erase${
               mode === 'erase' ? ' active' : ''

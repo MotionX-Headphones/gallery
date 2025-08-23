@@ -23,9 +23,8 @@
   min-height: 30px;
   width: 30px;
   height: 30px;
-  /* background: var(--tg-theme-secondary-bg-color); */
   color: #ffffff42;
-  border: 1px solid var(--tg-theme-secondary-bg-color);
+  border: 1px solid var(--border);
   border-radius: 4px;
   padding: 0;
   display: flex;
@@ -37,8 +36,8 @@
 }
 
 .pixelEditor-btn.active {
-  background: var(--tgui--button_color);
-  color: #fff;
+  background: var(--primary);
+  color: var(--primary-foreground);
   font-weight: bold;
 }
 

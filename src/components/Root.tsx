@@ -24,12 +24,14 @@ function ErrorBoundaryError({ error }: { error: unknown }) {
 
 export function Root() {
   return (
-    <ErrorBoundary fallback={ErrorBoundaryError}>
-      <TonConnectUIProvider manifestUrl={publicUrl('tonconnect-manifest.json')}>
-        <ThemeProvider defaultTheme='dark' storageKey='vite-ui-theme'>
+    <ThemeProvider defaultTheme='dark' storageKey='vite-ui-theme'>
+      <ErrorBoundary fallback={ErrorBoundaryError}>
+        <TonConnectUIProvider
+          manifestUrl={publicUrl('tonconnect-manifest.json')}
+        >
           <App />
-        </ThemeProvider>
-      </TonConnectUIProvider>
-    </ErrorBoundary>
+        </TonConnectUIProvider>
+      </ErrorBoundary>
+    </ThemeProvider>
   );
 }
