@@ -137,12 +137,12 @@ const mockData = [
     title: `Yierhebubu 5`,
     author: `Yierhebubu`,
   },
-  // {
-  //   artId: `27`,
-  //   imageUrl: `https://firebasestorage.googleapis.com/v0/b/motionx-project.appspot.com/o/motionx-gallery%2Fyierhebubu%2F%E4%B8%80%E4%BA%8C%E5%B8%83%E5%B8%83gif%E8%A1%A8%E6%83%85%E5%8C%85%E5%8A%A8%E5%9B%BE%20(798)_%E7%88%B1%E7%BB%99%E7%BD%91_aigei_com.gif?alt=media&token=f1bc172b-570e-42ad-95a2-b21e8b59ab04`,
-  //   title: `Yierhebubu 6`,
-  //   author: `Yierhebubu`,
-  // },
+  {
+    artId: `27`,
+    imageUrl: `https://firebasestorage.googleapis.com/v0/b/motionx-project.appspot.com/o/motionx-gallery%2Fyierhebubu%2F%E4%B8%80%E4%BA%8C%E5%B8%83%E5%B8%83gif%E8%A1%A8%E6%83%85%E5%8C%85%E5%8A%A8%E5%9B%BE%20(798)_%E7%88%B1%E7%BB%99%E7%BD%91_aigei_com.gif?alt=media&token=f1bc172b-570e-42ad-95a2-b21e8b59ab04`,
+    title: `Yierhebubu 6`,
+    author: `Yierhebubu`,
+  },
   {
     artId: `14`,
     imageUrl: `https://firebasestorage.googleapis.com/v0/b/motionx-project.appspot.com/o/motionx-gallery%2Ftanyd%2FTanyd%20(1).jpg?alt=media&token=31c4a1b9-59b7-4edd-b6d5-0c6faeb187a3`,
