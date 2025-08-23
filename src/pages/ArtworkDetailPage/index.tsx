@@ -10,6 +10,7 @@ import { HeadphonesPreview } from '@/components/HeadphonesPreview';
 import './ArtworkDetailPage.css';
 import { useSearchParams } from 'react-router-dom';
 import AboutArtwork from './components/AboutArtwork';
+import { ImageZoom } from '@/components/ui/shadcn-io/image-zoom';
 
 const [, e] = bem('artwork-detail-page');
 
@@ -82,7 +83,7 @@ export const ArtworkDetailPage: FC = () => {
         </Tabs>
 
         {/* Swipeable container with overflow hidden */}
-        <div style={{ overflow: 'hidden', width: '100%' }}>
+        <div className='mb-10'>
           <div
             ref={containerRef}
             style={{
@@ -93,28 +94,22 @@ export const ArtworkDetailPage: FC = () => {
             }}
           >
             {/* Image view */}
-            <div style={{ width: '50%', flexShrink: 0 }}>
-              <div style={{ minHeight: '380px' }}>
-                <img
-                  style={{
-                    userSelect: 'none',
-                    pointerEvents: 'none',
-                    maxWidth: '500px',
-                    minHeight: '380px',
-                    objectFit: 'contain',
-                  }}
-                  className={e('image')}
-                  width='100%'
-                  height='auto'
-                  src={`${imageUrl}&token=${token}`}
-                  alt={title}
-                />
+            <div className='w-1/2 shrink-0'>
+              <div className='min-h-[380px] flex items-center justify-center'>
+                <ImageZoom>
+                  <img
+                    className={`${e('image')} max-w-full h-auto object-contain`}
+                    src={`${imageUrl}&token=${token}`}
+                    alt={title}
+                    loading='lazy'
+                  />
+                </ImageZoom>
               </div>
             </div>
 
             {/* Headphones preview view */}
-            <div style={{ width: '50%', flexShrink: 0 }}>
-              <div style={{ minHeight: '380px' }}>
+            <div className='w-1/2 shrink-0'>
+              <div className='min-h-[380px]'>
                 <HeadphonesPreview
                   overlayImageUrl={`${imageUrl}&token=${token}`}
                 />

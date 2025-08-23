@@ -1,9 +1,11 @@
 import React from 'react';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
-import Avatar from '@mui/material/Avatar';
-import Divider from '@mui/material/Divider';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from '@/components/ui/card';
 
 interface AboutArtworkProps {
   title: string;
@@ -14,7 +16,7 @@ interface AboutArtworkProps {
 }
 
 /**
- * AboutArtwork component displays artwork information including title, description, and author details
+ * AboutArtwork displays artwork info using shadcn Card components.
  */
 const AboutArtwork: React.FC<AboutArtworkProps> = ({
   title,
@@ -24,99 +26,37 @@ const AboutArtwork: React.FC<AboutArtworkProps> = ({
   authorAvatar,
 }) => {
   return (
-    <Paper
-      elevation={0}
-      sx={{
-        p: 3,
-        background: 'var(--tg-theme-secondary-bg-color, #f5f5f5)',
-        color: 'var(--tg-theme-text-color, #222)',
-        borderRadius: 2,
-        mb: 2,
-      }}
-    >
-      {/* Artwork Title */}
-      <Typography
-        variant='h4'
-        component='h1'
-        gutterBottom
-        sx={{
-          fontWeight: 600,
-          color: 'var(--tg-theme-text-color, #222)',
-          mb: 2,
-        }}
-      >
-        {title}
-      </Typography>
-
-      <Divider sx={{ mb: 3 }} />
-
-      {/* Artwork Description */}
-      {description && (
-        <Box sx={{ mb: 3 }}>
-          <Typography
-            variant='body1'
-            sx={{
-              lineHeight: 1.6,
-              color: 'var(--tg-theme-text-color, #222)',
-            }}
-          >
+    <Card className='mb-4'>
+      <CardHeader>
+        <CardTitle className='text-2xl'>{title}</CardTitle>
+        {description && (
+          <CardDescription className='leading-relaxed'>
             {description}
-          </Typography>
-        </Box>
-      )}
-
-      {/* Author Section */}
-      <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2 }}>
-        <Avatar
-          src={authorAvatar}
-          alt={author}
-          sx={{
-            width: 56,
-            height: 56,
-            bgcolor: 'var(--tg-theme-button-color, #0088cc)',
-          }}
-        >
-          {author.charAt(0).toUpperCase()}
-        </Avatar>
-
-        <Box sx={{ flex: 1 }}>
-          <Typography
-            variant='h6'
-            component='h3'
-            gutterBottom
-            sx={{
-              fontWeight: 500,
-              color: 'var(--tg-theme-text-color, #222)',
-              mb: 1,
-            }}
-          >
-            {author}
-          </Typography>
-
-          {authorBio ? (
-            <Typography
-              variant='body2'
-              sx={{
-                lineHeight: 1.5,
-                color: 'var(--tg-theme-subtitle-text-color, #888)',
-              }}
-            >
-              {authorBio}
-            </Typography>
+          </CardDescription>
+        )}
+      </CardHeader>
+      <CardContent>
+        <div className='flex items-start gap-3'>
+          {authorAvatar ? (
+            <img
+              src={authorAvatar}
+              alt={author}
+              className='h-14 w-14 rounded-full object-cover'
+            />
           ) : (
-            <Typography
-              variant='body2'
-              sx={{
-                fontStyle: 'italic',
-                color: 'var(--tg-theme-subtitle-text-color, #888)',
-              }}
-            >
-              No bio available for this artist.
-            </Typography>
+            <div className='h-14 w-14 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-lg font-semibold'>
+              {author?.charAt(0).toUpperCase()}
+            </div>
           )}
-        </Box>
-      </Box>
-    </Paper>
+          <div className='flex-1'>
+            <div className='font-medium mb-1'>{author}</div>
+            <div className='text-sm text-muted-foreground'>
+              {authorBio || 'No bio available for this artist.'}
+            </div>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
   );
 };
 
