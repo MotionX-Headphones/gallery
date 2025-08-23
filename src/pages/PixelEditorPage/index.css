@@ -63,7 +63,7 @@
 }
 
 .pixelEditor-btn--reset {
-  margin-left: 30px;
+  margin-left: 60px;
   background: var(--destructive);
   color: var(--destructive-foreground);
   font-weight: bold;
