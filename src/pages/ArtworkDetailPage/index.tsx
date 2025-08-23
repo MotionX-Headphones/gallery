@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import { useState, useRef, useEffect } from 'react';
-import { Tabs, Tab, Box } from '@mui/material';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useSwipeable } from 'react-swipeable';
 
 import { Page } from '@/components/Page.tsx';
@@ -24,10 +24,10 @@ export const ArtworkDetailPage: FC = () => {
   const token = searchParams.get('token') || '';
 
   /**
-   * Handles tab change event
+   * Handles tab value change from shadcn tabs
    */
-  const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
-    setCurrentIndex(newValue);
+  const handleTabValueChange = (newValue: string) => {
+    setCurrentIndex(newValue === 'image' ? 0 : 1);
   };
 
   /**
@@ -69,17 +69,17 @@ export const ArtworkDetailPage: FC = () => {
   return (
     <Page>
       <div className={e('container')} {...swipeHandlers}>
-        <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 2 }}>
-          <Tabs
-            value={currentIndex}
-            onChange={handleTabChange}
-            aria-label='artwork detail tabs'
-            centered
-          >
-            <Tab label='Image' />
-            <Tab label='Headphones Preview' />
-          </Tabs>
-        </Box>
+        <Tabs
+          value={currentIndex === 0 ? 'image' : 'preview'}
+          onValueChange={handleTabValueChange}
+          aria-label='artwork detail tabs'
+          className='mt-10 mb-3'
+        >
+          <TabsList>
+            <TabsTrigger value='image'>Image</TabsTrigger>
+            <TabsTrigger value='preview'>Headphones Preview</TabsTrigger>
+          </TabsList>
+        </Tabs>
 
         {/* Swipeable container with overflow hidden */}
         <div style={{ overflow: 'hidden', width: '100%' }}>
