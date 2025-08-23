@@ -97,7 +97,8 @@ export default function ShadArtworkCard({
 
   // Render empty card if data is missing
   if (isEmpty) {
-    return <Card className='flex-1 h-[260px]' />;
+    // return <Card className='flex-1 h-[260px]' />;
+    return <div className='flex-1 h-[260px] max-w-[200px]' />;
   }
 
   // Render card with artwork data
