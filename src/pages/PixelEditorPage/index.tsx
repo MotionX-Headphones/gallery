@@ -10,7 +10,6 @@ import DialogComponent from './DialogComponent';
 import { Typography } from '@mui/material';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import Snackbar from '@mui/material/Snackbar';
 import { Button as ButtonShadCn } from '@/components/ui/button';
 import { toast } from 'sonner';
 const ROWS = 12;
@@ -31,8 +30,7 @@ export const PixelEditorPage = () => {
     null
   );
   const [openDialog, setOpenDialog] = useState(false);
-  const [openSnackbar, setOpenSnackbar] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState('');
+
   // Handle mouseup/touchend globally to stop drawing
   React.useEffect(() => {
     const stopDrawing = () => setDrawing(false);
@@ -187,14 +185,6 @@ export const PixelEditorPage = () => {
         >
           {dialogChildren}
         </DialogComponent>
-        <Snackbar
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-          open={openSnackbar}
-          onClose={() => setOpenSnackbar(false)}
-          message={snackbarMessage}
-          key='bottom-center'
-          autoHideDuration={3000}
-        />
       </div>
     </DrawingContext.Provider>
   );
