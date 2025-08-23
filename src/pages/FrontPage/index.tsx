@@ -85,7 +85,7 @@ export const FrontPage = () => {
       </div>
       <div className='fixed bottom-0 left-0 w-screen flex items-center justify-center h-[60px] p-4'>
         <MenuDock
-          className='lg:hidden w-full flex items-center justify-center gap-15'
+          className='w-full flex items-center justify-center gap-15'
           items={items}
           variant='compact'
           animated={false}

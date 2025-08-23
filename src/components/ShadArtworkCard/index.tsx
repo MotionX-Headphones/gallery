@@ -73,9 +73,8 @@ export default function ShadArtworkCard({
       // Fallback to direct navigation if popup is not supported
       console.log('popup is not supported');
       const encodedImageUrl = encodeURIComponent(imageUrl);
-      navigate(
-        `/artwork-detail?imageUrl=${encodedImageUrl}&title=${title}&author=${author}`
-      );
+      const url = `/artwork-detail?imageUrl=${encodedImageUrl}&title=${title}&author=${author}`;
+      navigate(url);
     }
   }
 
@@ -105,7 +104,7 @@ export default function ShadArtworkCard({
   return (
     <Card
       onClick={handleClick}
-      className='flex-1 h-[260px] flex flex-col pb-0 pt-0 pl-0 pr-0 gap-4'
+      className='flex-1 h-[260px] max-w-[200px] flex flex-col pb-0 pt-0 pl-0 pr-0 gap-4'
     >
       {/* Artwork Image */}
       <div className='relative h-[195px] overflow-hidden rounded-t-lg'>
