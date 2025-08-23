@@ -4,7 +4,7 @@ import { App } from '@/components/App.tsx';
 import { ErrorBoundary } from '@/components/ErrorBoundary.tsx';
 import { publicUrl } from '@/helpers/publicUrl.ts';
 import { ThemeProvider } from '@/components/theme-provider.tsx';
-
+import { postEvent } from '@telegram-apps/sdk-react';
 function ErrorBoundaryError({ error }: { error: unknown }) {
   return (
     <div>
@@ -23,6 +23,7 @@ function ErrorBoundaryError({ error }: { error: unknown }) {
 }
 
 export function Root() {
+  postEvent('web_app_request_fullscreen');
   return (
     <ThemeProvider defaultTheme='dark' storageKey='vite-ui-theme'>
       <ErrorBoundary fallback={ErrorBoundaryError}>

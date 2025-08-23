@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { IndexPage } from '@/pages/IndexPage/IndexPage';
+// import { IndexPage } from '@/pages/IndexPage/IndexPage';
 import { GalleryPage } from '@/pages/GalleryPage/index';
 
 import { PixelEditorPage } from '@/pages/PixelEditorPage/index';
@@ -47,7 +47,7 @@ export const FrontPage = () => {
   return (
     <>
       <div id='scrollableDiv' className='scrollableDiv'>
-        {value === 'home' && <IndexPage />}
+        {/* {value === 'home' && <IndexPage />} */}
         {value === 'gallery' && <GalleryPage />}
         {value === 'pixelEditor' && <PixelEditorPage />}
       </div>
