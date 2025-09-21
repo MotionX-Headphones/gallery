@@ -75,7 +75,7 @@ export const GalleryPage = () => {
           <Typography
             sx={{ textAlign: 'center', color: 'var(--tg-theme-text-color)' }}
           >
-            Yay! You have seen it all
+            Yay! You have seen it all 1
           </Typography>
         }
         // Add pull down to refresh props

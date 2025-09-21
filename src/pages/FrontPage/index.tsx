@@ -9,6 +9,7 @@ import {
   type MenuDockItem,
 } from '@/components/ui/shadcn-io/menu-dock';
 import { Home, Palette } from 'lucide-react';
+import { KeepAlive } from 'react-activation';
 
 export const FrontPage = () => {
   const [value, setValue] = useState('gallery');
@@ -69,29 +70,30 @@ export const FrontPage = () => {
 
   return (
     <>
-      <div
-        id='scrollableDiv'
-        className='scrollableDiv'
-        ref={scrollContainerRef}
-        onScroll={handleScroll}
-      >
-        {/* {value === 'home' && <IndexPage />} */}
-        <div className={value === 'gallery' ? 'block' : 'hidden'}>
-          <GalleryPage />
+      <KeepAlive cacheKey='frontPage'>
+        <div
+          id='scrollableDiv'
+          className='scrollableDiv'
+          ref={scrollContainerRef}
+          onScroll={handleScroll}
+        >
+          <div className={value === 'gallery' ? 'block' : 'hidden'}>
+            <GalleryPage />
+          </div>
+          <div className={value === 'pixelEditor' ? 'block' : 'hidden'}>
+            <PixelEditorPage />
+          </div>
         </div>
-        <div className={value === 'pixelEditor' ? 'block' : 'hidden'}>
-          <PixelEditorPage />
+        <div className='fixed bottom-0 left-0 w-screen flex items-center justify-center h-[60px] p-4'>
+          <MenuDock
+            className='w-full flex items-center justify-center gap-15'
+            items={items}
+            variant='compact'
+            animated={false}
+            orientation='horizontal'
+          />
         </div>
-      </div>
-      <div className='fixed bottom-0 left-0 w-screen flex items-center justify-center h-[60px] p-4'>
-        <MenuDock
-          className='w-full flex items-center justify-center gap-15'
-          items={items}
-          variant='compact'
-          animated={false}
-          orientation='horizontal'
-        />
-      </div>
+      </KeepAlive>
     </>
   );
 };

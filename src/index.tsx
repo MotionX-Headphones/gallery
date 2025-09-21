@@ -2,9 +2,8 @@
 import '@telegram-apps/telegram-ui/dist/styles.css';
 
 import ReactDOM from 'react-dom/client';
-import { StrictMode } from 'react';
 import { retrieveLaunchParams } from '@telegram-apps/sdk-react';
-
+import { AliveScope } from 'react-activation';
 import { Root } from '@/components/Root.tsx';
 import { EnvUnsupported } from '@/components/EnvUnsupported.tsx';
 import { init } from '@/init.ts';
@@ -30,9 +29,9 @@ try {
     mockForMacOS: platform === 'macos',
   }).then(() => {
     root.render(
-      <StrictMode>
+      <AliveScope>
         <Root />
-      </StrictMode>
+      </AliveScope>
     );
   });
   if (window.visualViewport) {

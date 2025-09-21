@@ -4,7 +4,7 @@ import { App } from '@/components/App.tsx';
 import { ErrorBoundary } from '@/components/ErrorBoundary.tsx';
 import { publicUrl } from '@/helpers/publicUrl.ts';
 import { ThemeProvider } from '@/components/theme-provider.tsx';
-import { postEvent } from '@telegram-apps/sdk-react';
+import { postEvent, retrieveLaunchParams } from '@telegram-apps/sdk-react';
 function ErrorBoundaryError({ error }: { error: unknown }) {
   return (
     <div>
@@ -23,7 +23,16 @@ function ErrorBoundaryError({ error }: { error: unknown }) {
 }
 
 export function Root() {
-  postEvent('web_app_request_fullscreen');
+  // Request fullscreen only for iOS and Android clients
+  try {
+    const { tgWebAppPlatform: platform } = retrieveLaunchParams();
+    if (platform === 'ios' || platform === 'android') {
+      postEvent('web_app_request_fullscreen');
+    }
+  } catch (error) {
+    // Silently handle any errors in platform detection
+    console.warn('Could not detect platform for fullscreen request:', error);
+  }
   return (
     <ThemeProvider defaultTheme='dark' storageKey='vite-ui-theme'>
       <ErrorBoundary fallback={ErrorBoundaryError}>
