@@ -8,7 +8,7 @@ import {
   MenuDock,
   type MenuDockItem,
 } from '@/components/ui/shadcn-io/menu-dock';
-import { Home, Palette } from 'lucide-react';
+import { Store, Palette, CircleUserRound, LineSquiggle } from 'lucide-react';
 import { KeepAlive } from 'react-activation';
 
 export const FrontPage = () => {
@@ -57,14 +57,30 @@ export const FrontPage = () => {
   const handlePixelEditor = () => {
     switchTab('pixelEditor');
   };
+  const handleCollections = () => {
+    switchTab('collections');
+  };
+  const handleMyMotionX = () => {
+    switchTab('myMotionX');
+  };
 
   const items: MenuDockItem[] = [
-    { label: 'Home Feed', icon: Home, onClick: handleHomeFeed },
+    { label: 'Marketplace', icon: Store, onClick: handleHomeFeed },
+    {
+      label: 'Collections',
+      icon: LineSquiggle,
+      onClick: handleCollections,
+    },
     // { label: 'User', icon: User },
     {
       label: 'Pixel Editor',
       icon: Palette,
       onClick: handlePixelEditor,
+    },
+    {
+      label: 'My MotionX',
+      icon: CircleUserRound,
+      onClick: handleMyMotionX,
     },
   ];
 
@@ -86,7 +102,7 @@ export const FrontPage = () => {
         </div>
         <div className='fixed bottom-0 left-0 w-screen flex items-center justify-center h-[60px] p-4'>
           <MenuDock
-            className='w-full flex items-center justify-center gap-15'
+            className='w-full flex items-center justify-center gap-2'
             items={items}
             variant='compact'
             animated={false}

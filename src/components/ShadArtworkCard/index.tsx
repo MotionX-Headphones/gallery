@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { popup } from '@telegram-apps/sdk-react';
 import {
   Card,
   CardContent,
@@ -8,8 +7,9 @@ import {
   CardDescription,
 } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Star } from 'lucide-react';
 
-/**
+/**F
  * Props interface for ShadArtworkCard component
  */
 interface ShadArtworkCardProps {
@@ -38,44 +38,9 @@ export default function ShadArtworkCard({
    * Handles card click to show artwork details in a popup overlay
    */
   function handleClick() {
-    // Check if popup is available and supported
-    if (popup.isSupported() && false) {
-      console.log('popup is supported');
-      // Show artwork details in a popup overlay
-      popup
-        .show({
-          title: title,
-          message: `Artist: ${author}\n\nClick "View Details" to see the full artwork.`,
-          buttons: [
-            {
-              id: 'view-details',
-              type: 'default',
-              text: 'View Details',
-            },
-            {
-              id: 'close',
-              type: 'close',
-            },
-          ],
-        })
-        .then((buttonId) => {
-          // Handle button clicks
-          console.log('buttonId', buttonId);
-          if (buttonId === 'view-details') {
-            // Navigate to detail page when user wants to see full details
-            const encodedImageUrl = encodeURIComponent(imageUrl);
-            navigate(
-              `/artwork-detail?imageUrl=${encodedImageUrl}&title=${title}&author=${author}`
-            );
-          }
-        });
-    } else {
-      // Fallback to direct navigation if popup is not supported
-      console.log('popup is not supported');
-      const encodedImageUrl = encodeURIComponent(imageUrl);
-      const url = `/artwork-detail?imageUrl=${encodedImageUrl}&title=${title}&author=${author}`;
-      navigate(url);
-    }
+    const encodedImageUrl = encodeURIComponent(imageUrl);
+    const url = `/artwork-detail?imageUrl=${encodedImageUrl}&title=${title}&author=${author}`;
+    navigate(url);
   }
 
   /**
@@ -125,16 +90,32 @@ export default function ShadArtworkCard({
       </div>
 
       {/* Card Content */}
-      <CardContent className='pl-1 pb-0'>
+      <CardContent className='relative'>
         {imageLoaded ? (
           <>
-            <CardTitle className='truncate'>{title}</CardTitle>
-            <CardDescription className='truncate'>{author}</CardDescription>
+            <CardTitle className='absolute top-0 left-2'>{title}</CardTitle>
+            <CardDescription className='absolute top-5 left-2'>
+              {author}
+            </CardDescription>
+            <div className='absolute top-3 right-2 font-bold text-sm flex items-center'>
+              <Star className='w-3 h-3' color='#ffc400' />
+              <span
+                style={{
+                  backgroundImage: 'linear-gradient(90deg, #ffc400, #ff8f00)',
+                  WebkitBackgroundClip: 'text',
+                  backgroundClip: 'text',
+                  color: 'transparent',
+                }}
+              >
+                100
+              </span>
+            </div>
           </>
         ) : (
           <div className='space-y-2'>
-            <Skeleton className='h-4 w-3/4' />
-            <Skeleton className='h-3 w-1/2' />
+            <Skeleton className='absolute top-0 left-2 h-4 w-2/3' />
+            <Skeleton className='absolute top-5 left-2 h-3 w-1/2' />
+            <Skeleton className='absolute top-2 right-2 h-4 w-8' />
           </div>
         )}
       </CardContent>
