@@ -72,7 +72,7 @@ export const PixelEditorPage = () => {
     const { tgWebAppPlatform: platform } = launchParams;
 
     domtoimage.toPng(element).then((dataUrl) => {
-      if (platform === 'ios' || platform === 'android' || true) {
+      if (platform === 'ios' || platform === 'android') {
         setOpenDialog(true);
         setDataUrl(dataUrl);
       } else {
@@ -187,10 +187,7 @@ export const PixelEditorPage = () => {
             <DialogHeader>
               <DialogTitle>Download Pixel Art</DialogTitle>
               <DialogDescription>
-                <div className='w-full h-full flex justify-center items-center mt-3'>
-                  <img className='w-full h-full' src={dataUrl} />
-                </div>
-                {/* <p>
+                <p>
                   Due to Telegram restrictions, you have to copy the Base64
                   string of the image and retrieve the image file via browser or
                   other tools.
@@ -207,7 +204,7 @@ export const PixelEditorPage = () => {
                   }}
                 >
                   Copy Base64
-                </ButtonShadCn> */}
+                </ButtonShadCn>
               </DialogDescription>
             </DialogHeader>
           </DialogContent>
