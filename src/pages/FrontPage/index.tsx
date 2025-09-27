@@ -60,6 +60,7 @@ export const FrontPage = () => {
   const handleCollections = () => {
     switchTab('collections');
   };
+
   const handleMyMotionX = () => {
     switchTab('myMotionX');
   };

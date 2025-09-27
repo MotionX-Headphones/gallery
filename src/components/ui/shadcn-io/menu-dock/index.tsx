@@ -160,7 +160,7 @@ export const MenuDock: React.FC<MenuDockProps> = ({
               'relative flex flex-col items-center justify-center rounded-lg transition-all duration-200',
               'hover:bg-muted/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
               styles.item,
-              isActive && 'text-primary',
+              isActive && 'text-[#02fdfd]',
               !isActive && 'text-muted-foreground hover:text-foreground'
             )}
             onClick={() => handleItemClick(index, item)}
@@ -202,7 +202,7 @@ export const MenuDock: React.FC<MenuDockProps> = ({
       {showLabels && orientation === 'horizontal' && showUnderline && (
         <div
           className={cn(
-            'absolute bottom-2 h-0.5 bg-primary rounded-full transition-all duration-300 ease-out',
+            'absolute bottom-2 h-0.5 bg-[#02fdfd] rounded-full transition-all duration-300 ease-out',
             animated ? 'transition-all duration-300' : ''
           )}
           style={{
@@ -216,7 +216,7 @@ export const MenuDock: React.FC<MenuDockProps> = ({
       {(!showLabels || orientation === 'vertical') && (
         <div
           className={cn(
-            'absolute bg-primary rounded-full transition-all duration-300',
+            'absolute bg-[#02fdfd] rounded-full transition-all duration-300',
             orientation === 'vertical'
               ? 'left-1 w-1 h-6'
               : 'bottom-0.5 h-0.5 w-6'

@@ -7,6 +7,35 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { getArtWorks } from '@/utils/request/gallery';
 import { Typography } from '@mui/material';
 
+const skeleton = () => {
+  return (
+    <>
+      {Array.from({ length: 4 }).map((_, rowIndex) => (
+        <div
+          key={rowIndex}
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            gap: '4px',
+            marginBottom: '8px',
+            padding: '0 4px',
+          }}
+        >
+          {Array.from({ length: 2 }).map((_, colIndex) => (
+            <Skeleton
+              key={colIndex}
+              variant='rectangular'
+              width={250}
+              height={250}
+              sx={{ borderRadius: 0, flex: 1 }}
+              style={{ maxWidth: 250, margin: '0 2px' }}
+            />
+          ))}
+        </div>
+      ))}
+    </>
+  );
+};
 export const GalleryPage = () => {
   const [items, setItems] = useState<any[]>([]);
   const [hasMore, setHasMore] = useState(true);
@@ -19,16 +48,35 @@ export const GalleryPage = () => {
     }
     setTimeout(() => {
       getArtWorks().then((res) => {
-        setItems(items.concat(res));
+        const newItems = res.map((item) => ({
+          ...item,
+          price: 8.99,
+        }));
+        setItems(items.concat(newItems));
       });
-    }, 1000);
+    }, 2000);
   };
 
-  // Add refresh function for pull down to refresh
   const refresh = async () => {
     setRefreshing(true);
-    await fetchData();
-    setRefreshing(false);
+    setItems([]);
+    setHasMore(true);
+    try {
+      const res = new Promise<any[]>((resolve) => {
+        setTimeout(() => {
+          resolve(getArtWorks());
+        }, 0);
+      });
+      const newItems = (await res).map((item: any) => ({
+        ...item,
+        price: 8.99,
+      }));
+      setItems(newItems);
+    } catch (error) {
+      console.error('Error refreshing data:', error);
+    } finally {
+      setRefreshing(false);
+    }
   };
 
   useEffect(() => {
@@ -42,33 +90,7 @@ export const GalleryPage = () => {
         dataLength={items.length} //This is important field to render the next data
         next={fetchData}
         hasMore={hasMore}
-        loader={
-          <>
-            {Array.from({ length: 4 }).map((_, rowIndex) => (
-              <div
-                key={rowIndex}
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  gap: '4px',
-                  marginBottom: '8px',
-                  padding: '0 4px',
-                }}
-              >
-                {Array.from({ length: 2 }).map((_, colIndex) => (
-                  <Skeleton
-                    key={colIndex}
-                    variant='rectangular'
-                    width={250}
-                    height={250}
-                    sx={{ borderRadius: 0, flex: 1 }}
-                    style={{ maxWidth: 250, margin: '0 2px' }}
-                  />
-                ))}
-              </div>
-            ))}
-          </>
-        }
+        loader={skeleton()}
         scrollThreshold={'800px'}
         scrollableTarget='scrollableDiv'
         endMessage={
@@ -81,21 +103,8 @@ export const GalleryPage = () => {
         // Add pull down to refresh props
         pullDownToRefresh
         refreshFunction={refresh}
-        pullDownToRefreshThreshold={100}
+        pullDownToRefreshThreshold={50}
       >
-        {/* Loader at the top when refreshing */}
-        {refreshing && (
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              margin: '16px 0',
-            }}
-          >
-            <CircularProgress size={32} thickness={4} />
-          </div>
-        )}
         {Array.from({ length: Math.ceil(items.length / 2) }).map(
           (_, rowIndex) => {
             const isLastRow = rowIndex === Math.ceil(items.length / 2) - 1;

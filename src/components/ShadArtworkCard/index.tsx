@@ -17,6 +17,7 @@ interface ShadArtworkCardProps {
   title: string;
   author: string;
   isLiked?: boolean;
+  price?: number;
 }
 
 /**
@@ -29,6 +30,7 @@ export default function ShadArtworkCard({
   title,
   author,
   isLiked,
+  price,
 }: ShadArtworkCardProps) {
   const [, setLiked] = useState(isLiked || false);
   const [imageLoaded, setImageLoaded] = useState(false);
@@ -98,17 +100,18 @@ export default function ShadArtworkCard({
               {author}
             </CardDescription>
             <div className='absolute top-3 right-2 font-bold text-sm flex items-center'>
-              <Star className='w-3 h-3' color='#ffc400' />
-              <span
-                style={{
-                  backgroundImage: 'linear-gradient(90deg, #ffc400, #ff8f00)',
-                  WebkitBackgroundClip: 'text',
-                  backgroundClip: 'text',
-                  color: 'transparent',
-                }}
-              >
-                100
-              </span>
+              {price && (
+                <span
+                  style={{
+                    backgroundImage: 'linear-gradient(90deg, #02eeff, #25b6da)',
+                    WebkitBackgroundClip: 'text',
+                    backgroundClip: 'text',
+                    color: 'transparent',
+                  }}
+                >
+                  ${price}
+                </span>
+              )}
             </div>
           </>
         ) : (
