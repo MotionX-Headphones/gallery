@@ -9,6 +9,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { Upload, ZoomIn, Crop } from 'lucide-react';
+import { HeadphonesPreview } from '../HeadphonesPreview';
 
 interface CroppedArea {
   x: number;
@@ -127,16 +128,9 @@ export const ImageCropper: React.FC<ImageCropperProps> = ({
           height
         );
 
-        canvas.toBlob(
-          (blob) => {
-            if (blob) {
-              const url = URL.createObjectURL(blob);
-              resolve(url);
-            }
-          },
-          'image/jpeg',
-          0.9
-        );
+        // Convert canvas to base64 data URL
+        const base64String = canvas.toDataURL('image/jpeg', 0.9);
+        resolve(base64String);
       };
       image.src = imageSrc;
     });
@@ -248,7 +242,7 @@ export const ImageCropper: React.FC<ImageCropperProps> = ({
           <div className='flex space-x-3'>
             <Button onClick={handleCrop} disabled={!croppedAreaPixels}>
               <Crop className='w-4 h-4 mr-2' />
-              Crop Image
+              Check it out!
             </Button>
             <Button variant='outline' onClick={handleReset}>
               Reset
@@ -261,29 +255,14 @@ export const ImageCropper: React.FC<ImageCropperProps> = ({
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent className='max-w-md'>
           <DialogHeader>
-            <DialogTitle>Cropped Result</DialogTitle>
+            <DialogTitle>Result</DialogTitle>
           </DialogHeader>
           {croppedImageUrl && (
             <div className='space-y-4'>
-              <div className='w-full h-64 flex items-center justify-center bg-gray-50 rounded-lg'>
-                <img
-                  src={croppedImageUrl}
-                  alt='Cropped result'
-                  className='max-w-full max-h-full object-contain rounded'
-                />
+              <div className='w-full flex items-center justify-center rounded-lg'>
+                <HeadphonesPreview overlayImageUrl={croppedImageUrl} />
               </div>
               <div className='flex space-x-2'>
-                <Button
-                  onClick={() => {
-                    const link = document.createElement('a');
-                    link.download = 'cropped-image.jpg';
-                    link.href = croppedImageUrl;
-                    link.click();
-                  }}
-                  className='flex-1'
-                >
-                  Download
-                </Button>
                 <Button
                   variant='outline'
                   onClick={() => setIsDialogOpen(false)}

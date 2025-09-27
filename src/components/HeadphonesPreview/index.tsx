@@ -94,31 +94,31 @@ export const HeadphonesPreview: React.FC<{
           {overlayImage && !isGif && (
             <Group
               clipFunc={(ctx: CanvasRenderingContext2D) => {
-                // Define the quadrilateral clipping path
+                // Define the quadrilateral clipping path with slight extension to eliminate white space
                 ctx.beginPath();
-                ctx.moveTo(1225 * scale, 2400 * scale); // Top-left
-                ctx.lineTo(2140 * scale, 2400 * scale); // Top-right
-                ctx.lineTo(2120 * scale, 3115 * scale); // Bottom-right
-                ctx.lineTo(1240 * scale, 3115 * scale); // Bottom-left
+                ctx.moveTo(1220 * scale, 2395 * scale); // Top-left (extended)
+                ctx.lineTo(2145 * scale, 2395 * scale); // Top-right (extended)
+                ctx.lineTo(2145 * scale, 3120 * scale); // Bottom-right (extended)
+                ctx.lineTo(1220 * scale, 3120 * scale); // Bottom-left (extended)
                 ctx.closePath();
               }}
             >
               <Image
                 image={overlayImage}
-                x={1225 * scale}
-                y={2400 * scale}
-                width={(2140 - 1225) * scale}
-                height={(3115 - 2400) * scale}
+                x={1220 * scale}
+                y={2395 * scale}
+                width={(2145 - 1220) * scale}
+                height={(3120 - 2395) * scale}
               />
             </Group>
           )}
 
           {isGif && overlayImageUrl && (
             <GifImage
-              x={1225 * scale}
-              y={2400 * scale}
-              width={(2140 - 1225) * scale}
-              height={(3115 - 2400) * scale}
+              x={1220 * scale}
+              y={2395 * scale}
+              width={(2145 - 1220) * scale}
+              height={(3120 - 2395) * scale}
               gifUrl={overlayImageUrl!}
             />
           )}

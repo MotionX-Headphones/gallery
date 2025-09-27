@@ -11,7 +11,7 @@ const CustomPreviewPage: React.FC = () => {
    * Handles successful crop completion
    */
   const handleCropComplete = (_croppedImageUrl: string) => {
-    toast.success('Image cropped successfully!');
+    toast.success('Result is ready!');
   };
 
   return (
