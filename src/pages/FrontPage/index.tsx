@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 // import { IndexPage } from '@/pages/IndexPage/IndexPage';
 import { GalleryPage } from '@/pages/GalleryPage/index';
 
-import { PixelEditorPage } from '@/pages/PixelEditorPage/index';
+import { WorkshopPage } from '@/pages/WorkshopPage/index';
 import './index.css';
 import {
   MenuDock,
@@ -74,7 +74,7 @@ export const FrontPage = () => {
     },
     // { label: 'User', icon: User },
     {
-      label: 'Pixel Editor',
+      label: 'Workshop',
       icon: Palette,
       onClick: handlePixelEditor,
     },
@@ -98,7 +98,7 @@ export const FrontPage = () => {
             <GalleryPage />
           </div>
           <div className={value === 'pixelEditor' ? 'block' : 'hidden'}>
-            <PixelEditorPage />
+            <WorkshopPage />
           </div>
         </div>
         <div className='fixed bottom-0 left-0 w-screen flex items-center justify-center h-[60px] p-4'>
