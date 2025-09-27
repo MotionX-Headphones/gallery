@@ -6,6 +6,7 @@ import { useSwipeable } from 'react-swipeable';
 import { Page } from '@/components/Page.tsx';
 import { bem } from '@/css/bem.ts';
 import { PixelEditorPage } from '@/pages/PixelEditorPage';
+import { CustomPreviewPage } from './CustomPreviewPage';
 
 const [, e] = bem('workshop-page');
 
@@ -61,14 +62,16 @@ export const WorkshopPage: FC = () => {
       <div className={e('container') + ' flex flex-col'} {...swipeHandlers}>
         <div className='w-full flex mt-8'>
           <Tabs
-            value={currentIndex === 0 ? 'pixel-editor' : 'placeholder'}
+            value={currentIndex === 0 ? 'pixel-editor' : 'image-cropper'}
             onValueChange={handleTabValueChange}
             aria-label='workshop tabs'
             className='mt-6 mb-3 ml-3 flex'
           >
             <TabsList>
               <TabsTrigger value='pixel-editor'>Pixel Editor</TabsTrigger>
-              <TabsTrigger value='placeholder'>Coming Soon</TabsTrigger>
+              <TabsTrigger value='image-cropper'>
+                Custom Image Preview
+              </TabsTrigger>
             </TabsList>
           </Tabs>
         </div>
@@ -93,13 +96,8 @@ export const WorkshopPage: FC = () => {
 
               {/* Placeholder view */}
               <div className='w-1/2 shrink-0'>
-                <div className='h-full flex items-center justify-center w-full'>
-                  <div className='text-center text-gray-500'>
-                    <h3 className='text-lg font-medium mb-2'>Coming Soon</h3>
-                    <p className='text-sm'>
-                      This tab is reserved for future features.
-                    </p>
-                  </div>
+                <div className='h-full flex flex-col items-center justify-start w-full'>
+                  <CustomPreviewPage />
                 </div>
               </div>
             </div>
