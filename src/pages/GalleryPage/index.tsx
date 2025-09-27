@@ -39,7 +39,7 @@ const skeleton = () => {
 export const GalleryPage = () => {
   const [items, setItems] = useState<any[]>([]);
   const [hasMore, setHasMore] = useState(true);
-  const [refreshing, setRefreshing] = useState(false);
+  const [_refreshing, setRefreshing] = useState(false);
 
   const fetchData = async () => {
     if (items.length >= 13) {
