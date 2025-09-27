@@ -3,7 +3,6 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 // import ArtworkCard from '../../components/ArtworkCard';
 import ShadArtworkCard from '@/components/ShadArtworkCard';
 import Skeleton from '@mui/material/Skeleton';
-import CircularProgress from '@mui/material/CircularProgress';
 import { getArtWorks } from '@/utils/request/gallery';
 import { Typography } from '@mui/material';
 

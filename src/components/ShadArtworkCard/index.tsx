@@ -7,7 +7,6 @@ import {
   CardDescription,
 } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Star } from 'lucide-react';
 
 /**F
  * Props interface for ShadArtworkCard component
